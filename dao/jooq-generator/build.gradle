@@ -1,0 +1,14 @@
+plugins {
+    id 'application'
+}
+
+application {
+	mainClass = 'com.hnu.dao.jooq.codegen.Main'
+}
+
+dependencies {
+    api project.jooq,
+            project.jooqMeta,
+            project.jooqCodegen,
+            project.postgresDriver
+}

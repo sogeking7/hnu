@@ -1,0 +1,8 @@
+rootProject.name = 'hnu'
+
+include ':apps:core',
+    ':utilities',
+    ':dao:nu',
+    ':dao:jooq-generator',
+    ':common:enum',
+    ':common:util'

@@ -1,0 +1,36 @@
+buildscript {
+    dependencies {
+        classpath project.postgresDriver
+		classpath "org.flywaydb:flyway-database-postgresql:${flywayVersion}"
+    }
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "${flywayVersion}"
+}
+
+flyway { //trigger build
+    url = 'jdbc:postgresql://127.0.0.1:5432/hnu?socketTimeout=1200'
+    driver = 'org.postgresql.Driver'
+    user = 'postgres'
+    password = 'postgres'
+    schemas = ['public']
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ["${projectDir}/src/main/java", "${projectDir}/src/main/generated"]
+		}
+	}
+}
+
+dependencies {
+	api project.commonsLang,
+		project(':common:enum'),
+		project(':common:util'),
+		project.commonsMath,
+		project.jooq
+	api 'org.eclipse.microprofile.openapi:microprofile-openapi-api'
+    testImplementation project.postgresDriver
+}

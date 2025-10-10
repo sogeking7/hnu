@@ -1,0 +1,71 @@
+plugins {
+    id 'io.quarkus' version "${quarkusPluginVersion}"
+    id 'org.openapi.generator' version "${openApiGeneratorVersion}"
+}
+
+dependencies {
+	implementation 'io.quarkus:quarkus-rest-jackson'
+	implementation 'io.quarkus:quarkus-rest-qute'
+	implementation 'io.quarkus:quarkus-reactive-routes'
+	implementation 'io.quarkus:quarkus-cache'
+	implementation 'io.quarkus:quarkus-reactive-pg-client'
+	implementation 'io.quarkus:quarkus-smallrye-openapi'
+	implementation 'io.quarkus:quarkus-jdbc-postgresql'
+	implementation 'io.quarkus:quarkus-security'
+	implementation "io.quarkiverse.jooq:quarkus-jooq:${quarkusJooqVersion}"
+
+	implementation project(':common:util')
+	implementation project(':dao:nu')
+
+}
+
+
+openApiGenerate {
+	generatorName = "typescript-angular"
+	inputSpec = "$rootDir/apps/core/config/openapi.yml".toString()
+	outputDir = "$rootDir/apps/core/build/angular".toString()
+	apiPackage = "api"
+	invokerPackage = "invoker"
+	modelPackage = "model"
+	skipValidateSpec.set(true)
+	configOptions = [
+		"dateLibrary": "java8",
+		"fileNaming": "kebab-case",
+		"enumPropertyNaming": "original"
+	]
+}
+
+tasks.register('loadOpenapi') {
+	doLast {
+		def url = project.properties['openapi-url'] ?: "http://localhost:9050"
+		def file = new File("$rootDir/apps/core/config/openapi.yml")
+		println 'downloading openapi from ' + url
+		def content = new URL("$url/q/openapi").getText('UTF-8')
+		content = content.replaceAll("13:45:30.123456789", "\"13:45:30.123456789\"")
+		file.text = content
+		println 'OpenAPI spec downloaded and modified successfully'
+	}
+}
+
+tasks.register('tsgen') {
+	dependsOn(':apps:core:loadOpenapi', ':apps:core:openApiGenerate')
+	doLast {
+		println 'tsgen'
+		project.delete(
+			"$rootDir/web-apps/libs/components/src/lib/nu-api",
+			"$rootDir/mobile-apps/hnu-app/src/app/nu-api",
+			"$rootDir/apps/core/build/angular/.openapi-generator-ignore",
+			"$rootDir/apps/core/build/angular/.openapi-generator"
+		)
+		project.copy {
+			from "$rootDir/apps/core/build/angular"
+			into "$rootDir/web-apps/libs/components/src/lib/bm-api"
+		}
+		project.copy {
+			from "$rootDir/apps/core/build/angular"
+			into "$rootDir/mobile-apps/hnu-app/src/app/nu-api"
+		}
+	}
+}
+
+
