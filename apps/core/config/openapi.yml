@@ -1,0 +1,19 @@
+---
+openapi: 3.1.0
+paths:
+  /hello:
+    get:
+      operationId: hello
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+      summary: Hello
+      tags:
+      - Greeting Resource
+info:
+  title: FNU API (development)
+  version: 1.0.0

@@ -37,7 +37,7 @@ openApiGenerate {
 
 tasks.register('loadOpenapi') {
 	doLast {
-		def url = project.properties['openapi-url'] ?: "http://localhost:9050"
+		def url = project.properties['openapi-url'] ?: "http://localhost:9000"
 		def file = new File("$rootDir/apps/core/config/openapi.yml")
 		println 'downloading openapi from ' + url
 		def content = new URL("$url/q/openapi").getText('UTF-8')
@@ -59,7 +59,7 @@ tasks.register('tsgen') {
 		)
 		project.copy {
 			from "$rootDir/apps/core/build/angular"
-			into "$rootDir/web-apps/libs/components/src/lib/bm-api"
+			into "$rootDir/web-apps/libs/components/src/lib/nu-api"
 		}
 		project.copy {
 			from "$rootDir/apps/core/build/angular"
