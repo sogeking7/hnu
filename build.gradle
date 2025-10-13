@@ -21,7 +21,25 @@ subprojects {
 
     dependencies {
         api enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    }
+
+		// https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
+//		api 'jakarta.validation:jakarta.validation-api:3.1.1'
+
+		api 'io.quarkus:quarkus-rest-client'
+		api 'io.quarkus:quarkus-rest-client-jackson'
+		api 'io.quarkus:quarkus-arc'
+		api 'io.quarkus:quarkus-hibernate-validator'
+		api 'io.quarkus:quarkus-vertx'
+		api 'io.quarkus.qute:qute-core'
+
+		api 'org.jboss.logmanager:log4j2-jboss-logmanager'
+	}
+
+	configurations.configureEach {
+		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+		exclude group: 'org.slf4j', module: 'slf4j-jdk14'
+		exclude group: 'log4j', module: 'log4j'
+	}
 
     compileJava {
         options.generatedSourceOutputDirectory.set(new File(projectDir, "/src/main/generated"))

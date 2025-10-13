@@ -5,6 +5,17 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuOtpRequests;
+import com.hnu.db.jooq.model.tables.NuOtps;
+import com.hnu.db.jooq.model.tables.NuSessions;
+import com.hnu.db.jooq.model.tables.NuUsers;
+import com.hnu.db.jooq.model.tables.PgpArmorHeaders;
+import com.hnu.db.jooq.model.tables.TgUsers;
+import com.hnu.db.jooq.model.tables.records.PgpArmorHeaderRecord;
+
+import org.jooq.Configuration;
+import org.jooq.Field;
+import org.jooq.Result;
 
 
 /**
@@ -17,4 +28,68 @@ public class Tables {
      * The table <code>public.flyway_schema_history</code>.
      */
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
+
+    /**
+     * The table <code>public.nu_otp_requests</code>.
+     */
+    public static final NuOtpRequests NU_OTP_REQUESTS = NuOtpRequests.NU_OTP_REQUESTS;
+
+    /**
+     * The table <code>public.nu_otps</code>.
+     */
+    public static final NuOtps NU_OTPS = NuOtps.NU_OTPS;
+
+    /**
+     * The table <code>public.nu_sessions</code>.
+     */
+    public static final NuSessions NU_SESSIONS = NuSessions.NU_SESSIONS;
+
+    /**
+     * The table <code>public.nu_users</code>.
+     */
+    public static final NuUsers NU_USERS = NuUsers.NU_USERS;
+
+    /**
+     * The table <code>public.pgp_armor_headers</code>.
+     */
+    public static final PgpArmorHeaders PGP_ARMOR_HEADERS = PgpArmorHeaders.PGP_ARMOR_HEADERS;
+
+    /**
+     * Call <code>public.pgp_armor_headers</code>.
+     */
+    public static Result<PgpArmorHeaderRecord> PGP_ARMOR_HEADERS(
+          Configuration configuration
+        , String __1
+    ) {
+        return configuration.dsl().selectFrom(com.hnu.db.jooq.model.tables.PgpArmorHeaders.PGP_ARMOR_HEADERS.call(
+              __1
+        )).fetch();
+    }
+
+    /**
+     * Get <code>public.pgp_armor_headers</code> as a table.
+     */
+    public static PgpArmorHeaders PGP_ARMOR_HEADERS(
+          String __1
+    ) {
+        return com.hnu.db.jooq.model.tables.PgpArmorHeaders.PGP_ARMOR_HEADERS.call(
+            __1
+        );
+    }
+
+    /**
+     * Get <code>public.pgp_armor_headers</code> as a table.
+     */
+    public static PgpArmorHeaders PGP_ARMOR_HEADERS(
+          Field<String> __1
+    ) {
+        return com.hnu.db.jooq.model.tables.PgpArmorHeaders.PGP_ARMOR_HEADERS.call(
+            __1
+        );
+    }
+
+    /**
+     * The table <code>public.tg_users</code>.
+     */
+    public static final TgUsers TG_USERS = TgUsers.TG_USERS;
 }

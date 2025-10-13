@@ -1,0 +1,215 @@
+.grid-container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--login-background);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+  color: var(--color-black);
+}
+
+.login-common-container {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.login-container {
+  max-width: 475px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+
+  .phone-container {
+    margin: 0;
+    padding: 0;
+  }
+
+  .phone-label {
+    color: var(--color-text-primary);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+  }
+
+  .phone-input-group {
+    background: #FFF;
+    margin: 8px 0 0;
+    border-radius: var(--input-border-radius-small);
+    border: 1px solid var(--color-gray-10);
+    background: var(--brand-background-light);
+    padding: 24px;
+    line-height: 0;
+    display: grid;
+    grid-template-columns: 91px auto;
+    align-items: center;
+    gap: 16px;
+
+    .phone-input {
+      font-family: JetBrainsMono, sans-serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 32px;
+      color: var(--login-phone-color);
+      width: 300px;
+
+      .invalid {
+        color: var(--color-red);
+        border: 1px solid #DB8585;
+      }
+    }
+  }
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.set-code-container {
+  .set-code-phone {
+    font-size: 24px;
+    font-weight: 400;
+    color: #000000;
+    line-height: normal;
+  }
+
+  .set-code-input {
+    font-family: JetBrainsMono, sans-serif;
+    font-size: 48px;
+    font-weight: 500;
+    width: 260px;
+    margin: 0;
+    color: var(--color-gray-40);
+    line-height: normal;
+
+    &.invalid {
+      color: #AA3030;
+    }
+
+    &.active {
+      color: #152F38;
+    }
+  }
+
+  .set-code-timer {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 16px 0 0;
+    color: var(--color-gray-30);
+    line-height: normal;
+  }
+
+  ion-button.set-code-change-phone-btn {
+    --padding-start: 0px;
+  }
+}
+
+.set-pin-container{
+  width: 345px;
+  text-align: center;
+
+  .circle-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 12px;
+
+    .pin-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 3px solid var(--login-pin-border-color);
+      margin: 0;
+      transition: background-color .3s ease;
+    }
+
+    .pin-circle.active {
+      background-color: var(--login-pin-background-active);
+    }
+
+    .pin-circle.invalid {
+      background-color: var(--ion-color-danger);
+      border-color: var(--ion-color-danger);
+    }
+  }
+
+  .keyboard-container {
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+
+    .row-container {
+      gap: 24px;
+    }
+
+    .circle-btn {
+      border: 1px solid var(--login-circle-border);
+      width: 80px;
+      height: 80px;
+      border-radius: var(--input-border-radius);
+      text-align: center;
+      color: var(--login-circle-text);
+      font-size: 32px;
+      font-weight: 400;
+      background: var(--login-circle-background);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background: #EDEDED;
+      }
+    }
+
+    .back-btn {
+      background: var(--login-back-btn-background);
+
+      ion-icon {
+        color: var(--login-back-btn-icon-color);
+      }
+    }
+  }
+}
+
+.has--error {
+  color: var(--color-red);
+}
+
+.error-block {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.button-groups {
+  display: grid;
+  gap: 16px;
+
+  ion-button.button-disabled {
+    --background: transparent;
+  }
+
+  .ion-button--primary {
+    --background: var(--login-telegram-background);
+    --color: var(--login-telegram-color);
+
+    ion-icon {
+      --color: var(--login-telegram-color);
+    }
+  }
+}
+
+.phone-flag {
+  color: var(--login-phone-flag);
+}

@@ -5,7 +5,15 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuOtpRequests;
+import com.hnu.db.jooq.model.tables.NuOtps;
+import com.hnu.db.jooq.model.tables.NuUsers;
+import com.hnu.db.jooq.model.tables.TgUsers;
 import com.hnu.db.jooq.model.tables.records.FlywaySchemaHistoryRecord;
+import com.hnu.db.jooq.model.tables.records.NuOtpRecord;
+import com.hnu.db.jooq.model.tables.records.NuOtpRequestRecord;
+import com.hnu.db.jooq.model.tables.records.NuUserRecord;
+import com.hnu.db.jooq.model.tables.records.TgUserRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -25,4 +33,11 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), new TableField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK }, true);
+    public static final UniqueKey<NuOtpRequestRecord> NU_OTP_REQUESTS_PKEY = Internal.createUniqueKey(NuOtpRequests.NU_OTP_REQUESTS, DSL.name("nu_otp_requests_pkey"), new TableField[] { NuOtpRequests.NU_OTP_REQUESTS.ID }, true);
+    public static final UniqueKey<NuOtpRecord> NU_OTPS_PKEY = Internal.createUniqueKey(NuOtps.NU_OTPS, DSL.name("nu_otps_pkey"), new TableField[] { NuOtps.NU_OTPS.ID }, true);
+    public static final UniqueKey<NuUserRecord> NU_USERS_PHONE__KEY = Internal.createUniqueKey(NuUsers.NU_USERS, DSL.name("nu_users_phone__key"), new TableField[] { NuUsers.NU_USERS.PHONE }, true);
+    public static final UniqueKey<NuUserRecord> NU_USERS_PKEY = Internal.createUniqueKey(NuUsers.NU_USERS, DSL.name("nu_users_pkey"), new TableField[] { NuUsers.NU_USERS.ID }, true);
+    public static final UniqueKey<TgUserRecord> TG_USERS_PHONE__KEY = Internal.createUniqueKey(TgUsers.TG_USERS, DSL.name("tg_users_phone__key"), new TableField[] { TgUsers.TG_USERS.PHONE }, true);
+    public static final UniqueKey<TgUserRecord> TG_USERS_PKEY = Internal.createUniqueKey(TgUsers.TG_USERS, DSL.name("tg_users_pkey"), new TableField[] { TgUsers.TG_USERS.ID }, true);
+    public static final UniqueKey<TgUserRecord> TG_USERS_TELEGRAM_USER_ID__KEY = Internal.createUniqueKey(TgUsers.TG_USERS, DSL.name("tg_users_telegram_user_id__key"), new TableField[] { TgUsers.TG_USERS.TELEGRAM_USER_ID }, true);
 }

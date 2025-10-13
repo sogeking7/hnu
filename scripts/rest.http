@@ -1,0 +1,60 @@
+### Set Telegram Webhook
+POST https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url= https://e74utkt0c3hs.share.zrok.io/service/api/fcs/telegram/
+Content-Type: application/json
+
+### Get Telegram Webhook Info
+GET  https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/getWebhookInfo
+Content-Type: application/json
+
+### Remove Telegram Webhook
+POST https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/deleteWebhook
+Content-Type: application/json
+
+### Log out from Telegram
+POST https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/logOut
+Content-Type: application/json
+
+### Set Telegram Webhook
+POST http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url= http://localhost:9000/service/api/fcs/telegram/
+Content-Type: application/json
+
+### Get Telegram Webhook Info
+GET  http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/getWebhookInfo
+Content-Type: application/json
+
+### test
+POST http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/sendMessage
+Content-Type: application/json
+
+{
+  "chat_id": 761631682,
+  "text": "test message from rest client"
+}
+
+
+### simulate Telegram update
+POST http://localhost:9000/service/api/fcs/telegram
+Content-Type: application/json
+
+{
+    "update_id": 123456789,
+    "message": {
+        "message_id": 42,
+        "from": {
+            "id": 761631682,
+            "is_bot": false,
+            "first_name": "TestUser",
+            "username": "testuser"
+        },
+        "chat": {
+            "id": 761631682,
+            "first_name": "TestUser",
+            "username": "testuser",
+            "type": "private"
+        },
+        "date": 1728850000,
+        "text": "hello bot"
+    }
+}
+### test getMe
+GET http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/getMe

@@ -1,8 +1,10 @@
 rootProject.name = 'hnu'
 
 include ':apps:core',
-    ':utilities',
     ':dao:nu',
     ':dao:jooq-generator',
     ':common:enum',
-    ':common:util'
+    ':common:util',
+	':common:json',
+	':module:auth',
+	':lib:telegram-client'

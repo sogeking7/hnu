@@ -5,11 +5,21 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuOtpRequests;
+import com.hnu.db.jooq.model.tables.NuOtps;
+import com.hnu.db.jooq.model.tables.NuSessions;
+import com.hnu.db.jooq.model.tables.NuUsers;
+import com.hnu.db.jooq.model.tables.PgpArmorHeaders;
+import com.hnu.db.jooq.model.tables.TgUsers;
+import com.hnu.db.jooq.model.tables.records.PgpArmorHeaderRecord;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.jooq.Catalog;
+import org.jooq.Configuration;
+import org.jooq.Field;
+import org.jooq.Result;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SchemaImpl;
@@ -34,6 +44,70 @@ public class Public extends SchemaImpl {
     public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
+     * The table <code>public.nu_otp_requests</code>.
+     */
+    public final NuOtpRequests NU_OTP_REQUESTS = NuOtpRequests.NU_OTP_REQUESTS;
+
+    /**
+     * The table <code>public.nu_otps</code>.
+     */
+    public final NuOtps NU_OTPS = NuOtps.NU_OTPS;
+
+    /**
+     * The table <code>public.nu_sessions</code>.
+     */
+    public final NuSessions NU_SESSIONS = NuSessions.NU_SESSIONS;
+
+    /**
+     * The table <code>public.nu_users</code>.
+     */
+    public final NuUsers NU_USERS = NuUsers.NU_USERS;
+
+    /**
+     * The table <code>public.pgp_armor_headers</code>.
+     */
+    public final PgpArmorHeaders PGP_ARMOR_HEADERS = PgpArmorHeaders.PGP_ARMOR_HEADERS;
+
+    /**
+     * Call <code>public.pgp_armor_headers</code>.
+     */
+    public static Result<PgpArmorHeaderRecord> PGP_ARMOR_HEADERS(
+          Configuration configuration
+        , String __1
+    ) {
+        return configuration.dsl().selectFrom(com.hnu.db.jooq.model.tables.PgpArmorHeaders.PGP_ARMOR_HEADERS.call(
+              __1
+        )).fetch();
+    }
+
+    /**
+     * Get <code>public.pgp_armor_headers</code> as a table.
+     */
+    public static PgpArmorHeaders PGP_ARMOR_HEADERS(
+          String __1
+    ) {
+        return com.hnu.db.jooq.model.tables.PgpArmorHeaders.PGP_ARMOR_HEADERS.call(
+            __1
+        );
+    }
+
+    /**
+     * Get <code>public.pgp_armor_headers</code> as a table.
+     */
+    public static PgpArmorHeaders PGP_ARMOR_HEADERS(
+          Field<String> __1
+    ) {
+        return com.hnu.db.jooq.model.tables.PgpArmorHeaders.PGP_ARMOR_HEADERS.call(
+            __1
+        );
+    }
+
+    /**
+     * The table <code>public.tg_users</code>.
+     */
+    public final TgUsers TG_USERS = TgUsers.TG_USERS;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -49,7 +123,13 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
+            FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+            NuOtpRequests.NU_OTP_REQUESTS,
+            NuOtps.NU_OTPS,
+            NuSessions.NU_SESSIONS,
+            NuUsers.NU_USERS,
+            PgpArmorHeaders.PGP_ARMOR_HEADERS,
+            TgUsers.TG_USERS
         );
     }
 }

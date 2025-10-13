@@ -1,0 +1,4 @@
+dependencies {
+	implementation 'io.quarkus:quarkus-security'
+	implementation project(':common:util')
+}

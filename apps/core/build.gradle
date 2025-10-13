@@ -15,8 +15,10 @@ dependencies {
 	implementation "io.quarkiverse.jooq:quarkus-jooq:${quarkusJooqVersion}"
 
 	implementation project(':common:util')
+	implementation project(':common:json')
 	implementation project(':dao:nu')
-
+	implementation project(':module:auth')
+	implementation project(':lib:telegram-client')
 }
 
 

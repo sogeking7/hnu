@@ -5,6 +5,8 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuOtps;
+import com.hnu.db.jooq.model.tables.TgUsers;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -23,4 +25,6 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index FLYWAY_SCHEMA_HISTORY_S_IDX = Internal.createIndex(DSL.name("flyway_schema_history_s_idx"), FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, new OrderField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.SUCCESS }, false);
+    public static final Index NU_OTPS__PHONE__IDX = Internal.createIndex(DSL.name("nu_otps__phone__idx"), NuOtps.NU_OTPS, new OrderField[] { NuOtps.NU_OTPS.PHONE }, false);
+    public static final Index TG_USERS__CHAT_USER_BOT__UIDX = Internal.createIndex(DSL.name("tg_users__chat_user_bot__uidx"), TgUsers.TG_USERS, new OrderField[] { TgUsers.TG_USERS.TELEGRAM_CHAT_ID, TgUsers.TG_USERS.TELEGRAM_USER_ID, TgUsers.TG_USERS.BOT }, true);
 }
