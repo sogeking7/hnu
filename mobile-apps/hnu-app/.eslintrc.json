@@ -1,11 +1,18 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": [
+    "projects/**/*",
+    "src/app/nu-api/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["tsconfig.json"],
+        "project": [
+          "tsconfig.json"
+        ],
         "createDefaultProgram": true
       },
       "extends": [
@@ -13,34 +20,67 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
-        "@angular-eslint/prefer-standalone": "off",
-        "@angular-eslint/component-class-suffix": [
+        "quotes": [
           "error",
+          "single",
           {
-            "suffixes": ["Page", "Component"]
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
           }
         ],
-        "@angular-eslint/component-selector": [
+        "object-shorthand": ["error", "consistent"],
+        "no-var": "error",
+        "curly": "error",
+        "semi": "error",
+        "no-restricted-syntax": [
           "error",
           {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
+            "selector": "TSEnumDeclaration:not([const=true])",
+            "message": "Don't declare non-const enums"
           }
         ],
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
+            "prefix": [
+              "app",
+              "nu",
+              "hx"
+            ],
             "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": [
+              "app",
+              "nu"
+            ],
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "suffixes": [
+              "Component",
+              "Modal",
+              "Page"
+            ]
           }
         ]
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
       "rules": {}
     }
   ]

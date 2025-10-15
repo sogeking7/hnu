@@ -1,7 +1,6 @@
 import { Component, inject, viewChild } from '@angular/core';
 import {
   IonButton,
-  IonChip,
   IonCol,
   IonContent,
   IonIcon,
@@ -9,24 +8,17 @@ import {
   IonLabel,
   IonRow,
 } from '@ionic/angular/standalone';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
 import { AuthService } from '@hnu-app/services/auth.service';
-import { AppService } from '@hnu-app/services/app.service';
-import { Authenticator, BrandModel, StoreModel } from '@hnu-app/bm-api';
+import { Authenticator } from '@hnu-app/nu-api';
 import { StorageService } from '@hnu-app/services/storage.service';
-import { BrandService } from '@hnu-app/services/brand.service';
-import { UiLabelPipe } from '@hnu-app/pipes/ui-label.pipe';
 import { addIcons } from 'ionicons';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions, maskitoTransform } from '@maskito/core';
 import { differenceInSeconds } from 'date-fns';
-import { HxLoadingDirective } from '@hnu-app/directives/loading/loading.directive';
-import { Browser } from '@capacitor/browser';
-import { StoreService } from '@hnu-app/services/store.service';
 
 export interface Pin {
   code: string;
@@ -53,11 +45,7 @@ interface PinValue {
     IonIcon,
     IonInput,
     IonLabel,
-    HxLoadingDirective,
     MaskitoDirective,
-    TranslocoPipe,
-    UiLabelPipe,
-    IonChip,
     NgTemplateOutlet,
   ]
 })
@@ -71,56 +59,43 @@ export class LoginPage {
   maskedPhone?: string;
   hiddenPhone?: string;
   isLoading = {
-    authenticators: false,
     confirmCode: false,
     sendCode: false,
     saveStore: false,
   };
-  storeId?: string;
-  brand?: BrandModel;
-  brands: BrandModel[] = [];
-  stores: StoreModel[] = [];
   view: 'pin' | 'phone' | 'code' | 'set-pin' | 'selector' = 'pin';
   time = this.TIMEOUT;
-  hasTelegram = false;
 
   protected readonly Authenticator = Authenticator;
-  readonly phoneMask: MaskitoOptions = { mask: [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/] };
+  readonly phoneMask: MaskitoOptions = {mask: [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]};
 
   readonly phoneMaskPredicate: MaskitoElementPredicate = async (el: any) => (el as HTMLIonInputElement).getInputElement();
-  readonly codeMask: MaskitoOptions = { mask: [/\d/, ' ', /\d/, ' ', /\d/, ' ', /\d/, ' ', /\d/] };
+  readonly codeMask: MaskitoOptions = {mask: [/\d/, ' ', /\d/, ' ', /\d/, ' ', /\d/, ' ', /\d/]};
 
   readonly codeMaskPredicate: MaskitoElementPredicate = async (el: any) => (el as HTMLIonInputElement).getInputElement();
   pinValues: PinValue[] = [
-    { active: false, invalid: false },
-    { active: false, invalid: false },
-    { active: false, invalid: false },
-    { active: false, invalid: false },
+    {active: false, invalid: false},
+    {active: false, invalid: false},
+    {active: false, invalid: false},
+    {active: false, invalid: false},
   ];
 
   validation = {
     errorPhone: false,
   };
-  availableAuthenticators: Authenticator[] = [];
 
   private phone?: string;
   private countDownTimeout?: NodeJS.Timeout;
 
   private readonly auth = inject(AuthService);
-  private readonly appService = inject(AppService);
   private readonly storage = inject(StorageService);
-  private readonly brandService = inject(BrandService);
-  private readonly storeService = inject(StoreService);
   private readonly router = inject(Router);
 
   constructor() {
-    addIcons({ checkmarkCircleOutline });
+    addIcons({checkmarkCircleOutline});
   }
 
   async ionViewDidEnter() {
-    if (this.auth.user) {
-      await this.initStoreSelection();
-    }
     const phone = await this.storage.getPhone();
     if (!phone) {
       return;
@@ -130,10 +105,7 @@ export class LoginPage {
     this.view = 'code';
     this.storage.getOtpSendInfo().then(info => {
       if (info) {
-        const { date, authenticator } = info;
-        if (authenticator === Authenticator.TELEGRAM) {
-          this.hasTelegram = true;
-        }
+        const {date} = info;
         const timePassed = differenceInSeconds(Date.now(), Number(date));
         this.time = this.TIMEOUT - timePassed;
         if (this.time > 0) {
@@ -153,32 +125,7 @@ export class LoginPage {
     });
   }
 
-  async initStoreSelection() {
-    if (!this.auth.user) {
-      throw new Error('not.authenticated');
-    }
-    this.view = 'selector';
-    await this.loadBrands();
-    this.phone = this.auth.user.phone;
-    const userBrandId = this.auth.user.brandId;
-    if (userBrandId && this.auth.user.brandConfig) {
-      console.log('[login.initStoreSelection] user has brandId and brandConfig: ', userBrandId);
-      this.brand = this.brands.find(br => br.id === userBrandId);
-    }
-    this.storeId = this.auth.user.storeId;
-    if (this.brand) {
-      this.stores = await this.storeService.getMyStores(this.brand.id);
-      if (this.stores.length === 1 && !this.storeId) {
-        await this.selectStore(this.stores[0]);
-      }
-    } else {
-      if (this.brands.length === 1) {
-        await this.selectBrand(this.brands[0]);
-      }
-    }
-  }
-
-  async sendCode(authenticator: Authenticator) {
+  async sendCode() {
     if (!this.phone) {
       return;
     }
@@ -189,15 +136,11 @@ export class LoginPage {
     this.validation.errorPhone = false;
     this.isLoading.sendCode = true;
     try {
-      if (Authenticator.TELEGRAM === authenticator && !this.hasTelegram) {
-        this.openTelegramBot();
-      } else {
-        await this.auth.sendOtpCode({
-          phone: this.phone,
-          authenticator: authenticator,
-        });
-      }
-      await this.storage.saveOtpSendDate({ date: Date.now(), authenticator: authenticator });
+      await this.auth.sendOtpCode({
+        phone: this.phone,
+        authenticator: Authenticator.TELEGRAM,
+      });
+      await this.storage.saveOtpSendDate({date: Date.now(), authenticator: Authenticator.TELEGRAM});
       await this.storage.savePhone(this.phone);
       this.view = 'code';
       this.hiddenPhone = this.hidePhone(this.phone);
@@ -236,53 +179,12 @@ export class LoginPage {
       this.phone = `${this.formatPhone(this.maskedPhone)}`;
       if (this.phone.length === 10) {
         this.phone = `7${this.phone}`;
-        this.isLoading.authenticators = true;
-        try {
-          const { authenticators, availableAuthenticators } = await this.auth.getAvailableAuthenticators(this.phone);
-          this.availableAuthenticators = availableAuthenticators;
-          this.hasTelegram = authenticators.some(a => a === Authenticator.TELEGRAM);
-        } finally {
-          this.isLoading.authenticators = false;
-        }
       }
     } else {
       this.phone = undefined;
     }
   }
 
-  async selectBrand(brand: BrandModel) {
-    this.stores = await this.storeService.getMyStores(brand.id);
-    if (this.brand?.id === brand.id) {
-      this.brand = undefined;
-    } else {
-      this.brand = brand;
-      if (this.stores.length === 1 && !this.storeId) {
-        this.selectStore(this.stores[0]);
-      }
-    }
-  }
-
-  async selectStore(store: StoreModel) {
-    if (!this.brand) {
-      return;
-    }
-    this.storeId = store.id;
-    this.isLoading.saveStore = true;
-    try {
-      await this.auth.updateSession({
-        storeId: this.storeId,
-        brand: this.brand,
-      });
-      await Promise.all([
-        this.storage.saveUserStoreId(this.storeId),
-        this.storage.saveUserBrandId(this.brand.id),
-      ]);
-      this.reset();
-      await this.router.navigateByUrl('');
-    } finally {
-      this.isLoading.saveStore = false;
-    }
-  }
 
   async confirmCode() {
     if (!this.code || !this.phone) {
@@ -292,8 +194,7 @@ export class LoginPage {
     try {
       const phone = this.phone;
       const code = this.formatCode(this.code);
-      const deviceInfo = await this.appService.getDeviceInfo();
-      const { token } = await this.auth.confirmOtpCode({ phone: phone, code: code, deviceInfo: deviceInfo });
+      const {token} = await this.auth.confirmOtpCode({phone: phone, code: code});
       await this.storage.saveToken(token);
       await this.storage.removePhone();
       const user = await this.auth.getMyUserInfo();
@@ -337,10 +238,10 @@ export class LoginPage {
             await this.router.navigateByUrl('');
           } else {
             this.pinValues = [
-              { active: false, invalid: true },
-              { active: false, invalid: true },
-              { active: false, invalid: true },
-              { active: false, invalid: true },
+              {active: false, invalid: true},
+              {active: false, invalid: true},
+              {active: false, invalid: true},
+              {active: false, invalid: true},
             ];
           }
         } else if (this.view === 'set-pin') {
@@ -350,16 +251,9 @@ export class LoginPage {
           const token = await this.storage.getToken();
           if (token) {
             await this.storage.savePin(user.phone, token, pinCode);
-            if (!user.storeId || !user.brandId) {
-              await this.initStoreSelection();
-            } else {
-              await Promise.all([
-                this.storage.saveUserStoreId(user.storeId),
-                this.storage.saveUserBrandId(user.brandId),
-              ]);
-              this.reset();
-              await this.router.navigateByUrl('');
-            }
+            await Promise.all([]);
+            this.reset();
+            await this.router.navigateByUrl('');
           } else {
             this.reset();
             await this.router.navigateByUrl('');
@@ -386,24 +280,18 @@ export class LoginPage {
     const otpInfo = await this.storage.getOtpSendInfo();
     if (otpInfo) {
       this.time = this.TIMEOUT;
-      await this.sendCode(otpInfo.authenticator);
+      await this.sendCode();
     }
   }
 
   private formatPhone(phone: string) {
-    return maskitoTransform(phone, { mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/] });
-  }
-
-  private async loadBrands() {
-    this.brands = await this.brandService.getMyBrands();
+    return maskitoTransform(phone, {mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]});
   }
 
   private reset() {
     this.code = undefined;
     this.phone = undefined;
     this.hiddenPhone = undefined;
-    this.brands = [];
-    this.stores = [];
     this.view = 'pin';
     this.invalidCode = false;
 
@@ -415,23 +303,11 @@ export class LoginPage {
   }
 
   private formatCode(code: string) {
-    return maskitoTransform(code, { mask: [/\d/, /\d/, /\d/, /\d/, /\d/] });
+    return maskitoTransform(code, {mask: [/\d/, /\d/, /\d/, /\d/, /\d/]});
   }
 
   private hidePhone(phone: string) {
     return `+7 *** *** ${phone.slice(-4, -2)} ${phone.slice(-2)}`;
-  }
-
-  private async openTelegramBot() {
-    const botTitle = (await this.auth.getBotTitleByDomain()).value;
-    Browser.open({
-      url: 'https://t.me/' + botTitle,
-      windowName: 'Telegram Login',
-      width: 310,
-      height: 490,
-      presentationStyle: 'popover',
-    });
-    this.view = 'code';
   }
 
   private startCountDown() {

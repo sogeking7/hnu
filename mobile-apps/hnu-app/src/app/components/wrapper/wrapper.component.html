@@ -1,0 +1,7 @@
+<div class="wrapper-body" [class]="classes()">
+  <ng-content></ng-content>
+
+  @if (loading()) {
+    <app-loader></app-loader>
+  }
+</div>

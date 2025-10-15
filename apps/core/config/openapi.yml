@@ -1,6 +1,258 @@
 ---
 openapi: 3.1.0
+components:
+  schemas:
+    AuthUserModel:
+      type: object
+      required:
+      - id
+      - phone
+      - firstname
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        phone:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        patronymic:
+          type: string
+    Authenticator:
+      type: string
+      enum:
+      - TELEGRAM
+      - SMS
+    ConfirmOtpRequest:
+      type: object
+      required:
+      - phone
+      - code
+      properties:
+        phone:
+          type: string
+        code:
+          type: string
+    JsonObject:
+      type: array
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+          value: {}
+    ProfileUpdateRequest:
+      type: object
+      required:
+      - firstname
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        patronymic:
+          type: string
+    SaveResult:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+    SaveSessionDataRequest:
+      type: object
+    SendOtpRequest:
+      type: object
+      required:
+      - phone
+      - authenticator
+      properties:
+        phone:
+          type: string
+        authenticator:
+          $ref: "#/components/schemas/Authenticator"
+    SendOtpResponse:
+      type: object
+      properties:
+        code:
+          type: string
+    TokenResultModel:
+      type: object
+      required:
+      - token
+      properties:
+        token:
+          type: string
+    UUID:
+      type: string
+      format: uuid
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
 paths:
+  /api/hnu/auth/me:
+    delete:
+      operationId: deleteMe
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Delete Me
+      tags:
+      - Auth Resource
+      security:
+      - bearer: []
+  /api/hnu/auth/my-session:
+    put:
+      operationId: updateMySession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaveSessionDataRequest"
+        required: true
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+        "400":
+          description: Bad Request
+      summary: Update My Session
+      tags:
+      - Auth Resource
+      security:
+      - bearer: []
+    delete:
+      operationId: logout
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Logout
+      tags:
+      - Auth Resource
+      security:
+      - bearer: []
+  /api/hnu/auth/my-session/{id}:
+    put:
+      operationId: unlockSessionById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: OK
+      summary: Unlock Session By Id
+      tags:
+      - Auth Resource
+  /api/hnu/auth/my-user-info:
+    post:
+      operationId: saveMyUserInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileUpdateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveResult"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+        "400":
+          description: Bad Request
+      summary: Save My User Info
+      tags:
+      - Auth Resource
+      security:
+      - bearer: []
+    get:
+      operationId: getMyUserInfo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUserModel"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Get My User Info
+      tags:
+      - Auth Resource
+      security:
+      - bearer: []
+  /api/hnu/auth/otp:
+    post:
+      operationId: sendOtpCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendOtpRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendOtpResponse"
+        "400":
+          description: Bad Request
+      summary: Send Otp Code
+      tags:
+      - Auth Resource
+  /api/hnu/auth/otp-code:
+    post:
+      operationId: confirmOtpCode
+      parameters:
+      - name: User-Agent
+        in: header
+        schema:
+          type: string
+      - name: X-Real-IP
+        in: header
+        schema:
+          type: string
+          default: "-"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmOtpRequest"
+        required: true
+      responses:
+        default:
+          description: confirm otp code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResultModel"
+        "400":
+          description: Bad Request
+      summary: Confirm Otp Code
+      tags:
+      - Auth Resource
   /hello:
     get:
       operationId: hello
@@ -14,6 +266,23 @@ paths:
       summary: Hello
       tags:
       - Greeting Resource
+  /service/api/fcs/telegram:
+    post:
+      operationId: onTelegramMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JsonObject"
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: On Telegram Message
+      tags:
+      - Telegram Resource
 info:
   title: FNU API (development)
   version: 1.0.0

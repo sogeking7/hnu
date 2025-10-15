@@ -1,0 +1,14 @@
+::ng-deep {
+  app-wrapper {
+    display: contents;
+  }
+}
+
+ion-content {
+  --background: var(--color-white);
+}
+
+.wrapper-body {
+  background: var(--color-white);
+  height: 100%;
+}

@@ -1,3 +1,4 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+@if (isLoading$ | async) {
+  <app-loader [background]="true"></app-loader>
+}
+<ion-router-outlet></ion-router-outlet>

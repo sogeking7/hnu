@@ -3,27 +3,27 @@
     @switch (view) {
       @case ('pin') {
         <div class="set-pin-container login-common-container">
-          <ion-label class="title ion-text-center">{{'login.inputPin.header' | transloco }}</ion-label>
+          <ion-label class="title ion-text-center">{{ 'Вход через мобильный номер' }}</ion-label>
 
           <ng-container *ngTemplateOutlet="numKeyboardTmpl"></ng-container>
 
           <ion-button (click)="changePhone()" class="ion-button--text" expand="block" fill="clear">
-            {{'login.inputPin.alternative' | transloco}}
+            {{ 'Вход через мобильный номер' }}
           </ion-button>
         </div>
       }
       @case ('set-pin') {
         <div class="set-pin-container login-common-container">
-          <ion-label class="title ion-text-center">{{'login.set-pin.header' | transloco}}</ion-label>
+          <ion-label class="title ion-text-center">{{ 'Придумайте PIN-код' }}</ion-label>
 
           <ng-container *ngTemplateOutlet="numKeyboardTmpl"></ng-container>
         </div>
       }
       @case ('phone') {
         <div class="login-container">
-          <ion-label class="title">{{'login.inputPhone.header' | transloco}}</ion-label>
+          <ion-label class="title">{{ 'Вход через мобильный номер' }}</ion-label>
           <div class="phone-container">
-            <ion-label class="phone-label">{{'login.inputPhone.label' | transloco}}</ion-label>
+            <ion-label class="phone-label">{{ 'Введите мобильный номер' }}</ion-label>
             <div class="phone-input-group">
               <ion-icon class="ion-icon--xxl phone-flag" size="large" src="/assets/icons/kz-phone.svg"></ion-icon>
               <ion-input #inputPhone class="phone-input" placeholder="000 000 00 00"
@@ -35,36 +35,29 @@
             </div>
             @if (validation.errorPhone) {
               <div class="error-block has--error ion-text-center ion-margin-top">
-                {{'login.inputPhone.error' | transloco}}
+                {{ 'Некорректный формат номера' }}
               </div>
             }
           </div>
 
           <div class="button-groups">
-            @if (availableAuthenticators.includes('TELEGRAM')) {
-              <ion-button (click)="sendCode(Authenticator.TELEGRAM)" [hxLoading]="isLoading.authenticators" class="ion-button--primary" expand="block">
-                <ion-icon slot="start" src="/assets/icons/telegram.svg"></ion-icon>
-                {{ 'login.action.sendCode.telegram' | transloco }}
-              </ion-button>
-            }
-
-            @if (availableAuthenticators.includes('SMS')) {
-              <ion-button (click)="sendCode(Authenticator.SMS)" [hxLoading]="isLoading.authenticators" class="ion-button--text" expand="block" fill="clear">
-                {{ 'login.action.sendCode.sms' | transloco }}
-              </ion-button>
-            }
+            <ion-button (click)="sendCode()" class="ion-button--primary"
+                        expand="block">
+              <ion-icon slot="start" src="/assets/icons/telegram.svg"></ion-icon>
+              {{ 'Код через Telegram' }}
+            </ion-button>
           </div>
 
           <ion-button (click)="view = 'pin'" class="ion-button--text" expand="block" fill="clear">
-            {{'login.action.pin' | transloco}}
+            {{ 'PIN-код арқылы кіру' }}
           </ion-button>
         </div>
       }
       @case ('code') {
         <div class="set-code-container login-common-container">
           <div class="login-header">
-            <ion-label class="title">{{'login.set-code.header' | transloco}}</ion-label>
-            <ion-label class="set-code-phone">{{'login.set-code.title' | transloco}} {{hiddenPhone}}</ion-label>
+            <ion-label class="title">{{ 'Кодты енгізіңіз' }}</ion-label>
+            <ion-label class="set-code-phone">{{ 'Біз оны нөмірге жібердік' }} {{ hiddenPhone }}</ion-label>
           </div>
 
           <div>
@@ -81,11 +74,11 @@
             </ion-row>
             <ion-row>
               @if (time > 0) {
-                <ion-label class="set-code-timer">{{'login.set-code.timer' | transloco: {time: time} }}</ion-label>
+                <ion-label class="set-code-timer">{{ 'кодты қайта жіберу {{time}}с кейін' }}</ion-label>
               } @else {
                 <a (click)="resendCode()">
                   <ion-label class="set-code-timer" style="text-decoration: underline;">
-                    {{ 'common.resend_code' | transloco }}
+                    {{ 'қайта жіберу' }}
                   </ion-label>
                 </a>
               }
@@ -94,40 +87,12 @@
 
           <ion-row>
             <ion-button (click)="changePhone()" class="ion-button--text set-code-change-phone-btn" fill="clear">
-              <div>{{'login.set-code.change.phone' | transloco}}</div>
+              <div>{{ 'Басқа нөмірден кіру' }}</div>
             </ion-button>
           </ion-row>
         </div>
       }
-      @case ('selector') {
-        @if (brands.length > 1) {
-          <div>
-            @for (br of brands; track br.id) {
-              <ion-chip (click)="selectBrand(br)" [outline]="true">
-                @if (brand?.id === br.id) {
-                  <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                }
-                <ion-label>{{ br.title }}</ion-label>
-              </ion-chip>
-            }
-          </div>
-        }
-        @if (brand) {
-          <div>
-            <small>{{'login.address' | transloco}}</small>
-            <div>
-              @for (st of stores; track st.id) {
-                <ion-chip (click)="selectStore(st)" [outline]="true">
-                  @if (storeId === st.id) {
-                    <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                  }
-                  <ion-label>{{ st.title | uiLabel }}</ion-label>
-                </ion-chip>
-              }
-            </div>
-          </div>
-        }
-      }
+
     }
   </div>
 </ion-content>
@@ -143,7 +108,7 @@
     </ion-row>
     @if (pinValues[pinValues.length - 1].invalid) {
       <div class="error-block has--error ion-text-center ion-margin-top">
-        {{'login.inputPin.error' | transloco}}
+        {{ 'Код дұрыс емес' }}
       </div>
     }
   </div>
@@ -151,11 +116,11 @@
   <ion-row class="keyboard-container">
     @for (i of [0, 1, 2]; track $index) {
       <ion-row class="ion-no-padding row-container">
-      @for (j of [0, 1, 2]; track $index) {
-        <ion-col class="ion-no-padding" size="auto">
-          <button class="circle-btn" (click)="setPinValue((i * 3 + j + 1))">{{(i * 3 + j + 1)}}</button>
-        </ion-col>
-      }
+        @for (j of [0, 1, 2]; track $index) {
+          <ion-col class="ion-no-padding" size="auto">
+            <button class="circle-btn" (click)="setPinValue((i * 3 + j + 1))">{{ (i * 3 + j + 1) }}</button>
+          </ion-col>
+        }
       </ion-row>
     }
     <ion-row class="ion-no-padding row-container">

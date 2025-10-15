@@ -85,12 +85,4 @@ export class StorageService {
       return undefined;
     });
   }
-
-  getAppVersion() {
-    return Preferences.get({key: 'app_version'}).then(res => res.value);
-  }
-
-  async saveAppVersion(bundleId: string) {
-    return Preferences.set({key: 'app_version', value: bundleId});
-  }
 }

@@ -1,0 +1,15 @@
+.main_layout {
+  --ion-tab-bar-background: var(--color-white);
+}
+
+.tab_bar {
+  height: 60px;
+  &__tab {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+    color: var(--color-black);
+  }
+}

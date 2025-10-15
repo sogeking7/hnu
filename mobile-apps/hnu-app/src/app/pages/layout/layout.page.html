@@ -1,0 +1,29 @@
+<ion-app>
+  <div class="main_layout">
+
+    <div class="wrapper-body">
+      <ion-router-outlet [animated]="false" id="main-content" class="main-content"></ion-router-outlet>
+    </div>
+    @if (isLoader.lock) {
+      <app-loader></app-loader>
+    }
+    <ion-tabs>
+      <ion-tab-bar class="tab_bar" slot="bottom">
+        <ion-tab-button tab="profile" href="/main/profile">
+          <ion-icon class="ion-icon--xxl" size="large" src="/assets/icons/user.svg"></ion-icon>
+          <ion-label class="tab_bar__tab">Profile</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="tab2" href="/main/tab2">
+          <ion-icon aria-hidden="true" name="ellipse"></ion-icon>
+          <ion-label class="tab_bar__tab">Tab 2</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="tab3" href="/main/tab3">
+          <ion-icon aria-hidden="true" name="square"></ion-icon>
+          <ion-label class="tab_bar__tab">Tab 3</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+</ion-app>
