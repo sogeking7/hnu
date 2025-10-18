@@ -1,0 +1,107 @@
+/* Layout */
+.hx__chat {
+  --background: var(--ion-background-color);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hx__top {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.hx__toolbar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.hx__toolbar__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Messages area */
+.hx__messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 12px 92px 12px; /* bottom space for input bar */
+}
+
+.msg {
+  display: flex;
+  max-width: 90%;
+}
+
+.msg .bubble {
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: #111;
+  //box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.msg .text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.msg .time {
+  margin-top: 4px;
+  font-size: 11px;
+  opacity: 0.6;
+  text-align: right;
+}
+
+/* Me (right aligned) */
+.msg.me {
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
+.msg.me .bubble {
+  background: var(--ion-color-primary, #3880ff);
+  color: #fff;
+}
+
+/* Input bar */
+.hx__input {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 12px 16px 12px;
+  background: var(--color-white);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.hx__input input {
+  width: 100%;
+  border: 1px solid rgba(60, 60, 67, 0.16);
+  border-radius: 20px;
+  padding: 10px 12px;
+  outline: none;
+  background: var(--ion-background-color);
+  color: var(--ion-text-color);
+}
+
+.hx__input button {
+  border: none;
+  border-radius: 18px;
+  padding: 0 14px;
+  font-weight: 600;
+  background: var(--ion-color-primary, #3880ff);
+  color: #fff;
+  min-width: 72px;
+}
+
+.hx__input button:disabled {
+  opacity: 0.5;
+}

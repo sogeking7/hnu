@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict YfmHkECa2Zm6NOIB7qQs1fVgxNQwZCX0MEeoJcsRtGQHfZA72tnCJWqt8sLbypl
+\restrict OeEdcVJzQf13iP5ysx4gO1rNmwwXINNbMlYdIrooEHewGBwKxkMrvNd1CTMKJyH
 
 -- Dumped from database version 17.6 (Postgres.app)
 -- Dumped by pg_dump version 17.6 (Postgres.app)
@@ -150,6 +150,45 @@ CREATE TABLE public.flyway_schema_history (
 ALTER TABLE public.flyway_schema_history OWNER TO postgres;
 
 --
+-- Name: nu_goal_transactions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.nu_goal_transactions (
+    id_ uuid DEFAULT public.uuid_generate_v7() NOT NULL,
+    removed_ boolean DEFAULT false NOT NULL,
+    create_date_ timestamp with time zone,
+    modify_date_ timestamp with time zone,
+    goal_id_ uuid NOT NULL,
+    amount_ numeric(16,5) NOT NULL,
+    date_ timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.nu_goal_transactions OWNER TO postgres;
+
+--
+-- Name: nu_goals; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.nu_goals (
+    id_ uuid DEFAULT public.uuid_generate_v7() NOT NULL,
+    removed_ boolean DEFAULT false NOT NULL,
+    create_date_ timestamp with time zone,
+    modify_date_ timestamp with time zone,
+    user_id_ uuid NOT NULL,
+    name_ character varying(255) NOT NULL,
+    duration_month_ integer NOT NULL,
+    monthly_invest_ numeric(16,5) NOT NULL,
+    target_ numeric(16,5) NOT NULL,
+    estimated_date_ timestamp without time zone NOT NULL,
+    balance_ numeric(16,5) NOT NULL,
+    completed_ boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.nu_goals OWNER TO postgres;
+
+--
 -- Name: nu_otp_requests; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -208,6 +247,24 @@ CREATE TABLE public.nu_sessions (
 ALTER TABLE public.nu_sessions OWNER TO postgres;
 
 --
+-- Name: nu_transactions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.nu_transactions (
+    id_ uuid DEFAULT public.uuid_generate_v7() NOT NULL,
+    removed_ boolean DEFAULT false NOT NULL,
+    create_date_ timestamp with time zone,
+    modify_date_ timestamp with time zone,
+    user_id uuid NOT NULL,
+    amount_ numeric(16,5) NOT NULL,
+    category_type_ character varying(255) NOT NULL,
+    date_ timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.nu_transactions OWNER TO postgres;
+
+--
 -- Name: nu_users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -221,7 +278,9 @@ CREATE TABLE public.nu_users (
     phone_ character varying(15) NOT NULL,
     firstname_ character varying(255),
     lastname_ character varying(255),
-    patronymic_ character varying(255)
+    patronymic_ character varying(255),
+    iin_ character varying(255),
+    birth_date_ timestamp with time zone
 );
 
 
@@ -259,6 +318,22 @@ ALTER TABLE ONLY public.flyway_schema_history
 
 
 --
+-- Name: nu_goal_transactions nu_goal_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.nu_goal_transactions
+    ADD CONSTRAINT nu_goal_transactions_pkey PRIMARY KEY (id_);
+
+
+--
+-- Name: nu_goals nu_goals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.nu_goals
+    ADD CONSTRAINT nu_goals_pkey PRIMARY KEY (id_);
+
+
+--
 -- Name: nu_otp_requests nu_otp_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -272,6 +347,14 @@ ALTER TABLE ONLY public.nu_otp_requests
 
 ALTER TABLE ONLY public.nu_otps
     ADD CONSTRAINT nu_otps_pkey PRIMARY KEY (id_);
+
+
+--
+-- Name: nu_transactions nu_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.nu_transactions
+    ADD CONSTRAINT nu_transactions_pkey PRIMARY KEY (id_);
 
 
 --
@@ -336,6 +419,20 @@ CREATE UNIQUE INDEX tg_users__chat_user_bot__uidx ON public.tg_users USING btree
 
 
 --
+-- Name: nu_goal_transactions nu_goal_transactions__date; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER nu_goal_transactions__date BEFORE INSERT OR UPDATE ON public.nu_goal_transactions FOR EACH ROW EXECUTE FUNCTION public.create_modify_date();
+
+
+--
+-- Name: nu_goals nu_goals__date; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER nu_goals__date BEFORE INSERT OR UPDATE ON public.nu_goals FOR EACH ROW EXECUTE FUNCTION public.create_modify_date();
+
+
+--
 -- Name: nu_otp_requests nu_otp_requests__date; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -371,6 +468,13 @@ CREATE TRIGGER nu_sessions__date BEFORE INSERT OR UPDATE ON public.nu_sessions F
 
 
 --
+-- Name: nu_transactions nu_transactions__date; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER nu_transactions__date BEFORE INSERT OR UPDATE ON public.nu_transactions FOR EACH ROW EXECUTE FUNCTION public.create_modify_date();
+
+
+--
 -- Name: nu_users nu_users__date; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -395,5 +499,5 @@ CREATE TRIGGER tg_users__date BEFORE INSERT OR UPDATE ON public.tg_users FOR EAC
 -- PostgreSQL database dump complete
 --
 
-\unrestrict YfmHkECa2Zm6NOIB7qQs1fVgxNQwZCX0MEeoJcsRtGQHfZA72tnCJWqt8sLbypl
+\unrestrict OeEdcVJzQf13iP5ysx4gO1rNmwwXINNbMlYdIrooEHewGBwKxkMrvNd1CTMKJyH
 

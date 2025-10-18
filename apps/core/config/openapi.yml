@@ -34,6 +34,69 @@ components:
           type: string
         code:
           type: string
+    GoalModel:
+      type: object
+      required:
+      - id
+      - userId
+      - name
+      - durationMonth
+      - monthlyInvest
+      - target
+      - estimatedDate
+      - balance
+      - completed
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        createDate:
+          $ref: "#/components/schemas/OffsetDateTime"
+        userId:
+          $ref: "#/components/schemas/UUID"
+        name:
+          type: string
+        durationMonth:
+          type: integer
+          format: int32
+        monthlyInvest:
+          type: number
+          format: double
+        target:
+          type: number
+          format: double
+        estimatedDate:
+          $ref: "#/components/schemas/LocalDateTime"
+        balance:
+          type: number
+          format: double
+        completed:
+          type: boolean
+    GoalSaveRequest:
+      type: object
+      required:
+      - name
+      - durationMonth
+      - monthlyInvest
+      - target
+      - estimatedDate
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        createDate:
+          $ref: "#/components/schemas/OffsetDateTime"
+        name:
+          type: string
+        durationMonth:
+          type: integer
+          format: int32
+        monthlyInvest:
+          type: number
+          format: double
+        target:
+          type: number
+          format: double
+        estimatedDate:
+          $ref: "#/components/schemas/LocalDateTime"
     JsonObject:
       type: array
       items:
@@ -42,6 +105,16 @@ components:
           key:
             type: string
           value: {}
+    LocalDateTime:
+      type: string
+      format: date-time
+      examples:
+      - 2022-03-10T12:15:50
+    OffsetDateTime:
+      type: string
+      format: date-time
+      examples:
+      - 2022-03-10T12:15:50-04:00
     ProfileUpdateRequest:
       type: object
       required:
@@ -84,10 +157,60 @@ components:
       properties:
         token:
           type: string
+    TransactionModel:
+      type: object
+      required:
+      - id
+      - createDate
+      - userId
+      - amount
+      - categoryType
+      - date
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        createDate:
+          $ref: "#/components/schemas/OffsetDateTime"
+        userId:
+          $ref: "#/components/schemas/UUID"
+        amount:
+          type: number
+          format: double
+        categoryType:
+          type: string
+        date:
+          $ref: "#/components/schemas/LocalDateTime"
     UUID:
       type: string
       format: uuid
       pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+    UserModel:
+      type: object
+      required:
+      - id
+      - createDate
+      - enabled
+      - phone
+      - firstname
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        createDate:
+          $ref: "#/components/schemas/OffsetDateTime"
+        enabled:
+          type: boolean
+        phone:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        patronymic:
+          type: string
+        uuin:
+          type: string
+        birthDate:
+          $ref: "#/components/schemas/OffsetDateTime"
 paths:
   /api/hnu/auth/me:
     delete:
@@ -253,6 +376,150 @@ paths:
       summary: Confirm Otp Code
       tags:
       - Auth Resource
+  /api/hnu/goals:
+    post:
+      operationId: saveGoal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalSaveRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveResult"
+        "400":
+          description: Bad Request
+      summary: Save Goal
+      tags:
+      - Goal Resource
+    get:
+      operationId: getGoals
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GoalModel"
+      summary: Get Goals
+      tags:
+      - Goal Resource
+  /api/hnu/goals/user/{userId}:
+    get:
+      operationId: getUserGoals
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GoalModel"
+      summary: Get User Goals
+      tags:
+      - Goal Resource
+  /api/hnu/goals/{id}:
+    delete:
+      operationId: removeGoal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/UUID"
+      responses:
+        "204":
+          description: No Content
+      summary: Remove Goal
+      tags:
+      - Goal Resource
+    get:
+      operationId: getGoalById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalModel"
+      summary: Get Goal By Id
+      tags:
+      - Goal Resource
+  /api/hnu/transactions/user/{userId}:
+    get:
+      operationId: getUserTransactions
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransactionModel"
+      summary: Get User Transactions
+      tags:
+      - Transaction Resource
+  /api/hnu/users:
+    get:
+      operationId: getUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserModel"
+      summary: Get Users
+      tags:
+      - User Resource
+  /api/hnu/users/{id}:
+    get:
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/schemas/UUID"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserModel"
+      summary: Get User By Id
+      tags:
+      - User Resource
   /hello:
     get:
       operationId: hello

@@ -1,0 +1,15 @@
+package common.enumeration;
+
+public enum CategoryType {
+	GROCERIES,
+	RESTAURANTS,
+	UTILITIES,
+	MOBILE,
+	TRANSPORTATION,
+	ENTERTAINMENT,
+	HEALTH,
+	TRAVEL,
+	CLOTHES,
+	SERVICES,
+	OTHERS
+}

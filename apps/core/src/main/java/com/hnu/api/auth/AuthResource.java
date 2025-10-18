@@ -111,7 +111,7 @@ public class AuthResource {
 			cookie.setValue("");
 			cookie.setPath("/");
 		});
-		log.info("user logout: {}", identity.sessionId());
+		log.warn("user logout: {}", identity.sessionId());
 		auth.invalidate(identity.sessionId());
 	}
 

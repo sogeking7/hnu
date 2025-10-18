@@ -1,0 +1,19 @@
+<app-wrapper style="padding-bottom: 67px;">
+  <ion-header class="hx__top" collapse="condense">
+    <div class="hx__toolbar">
+      <h1 class="hx__toolbar__title">My Chats</h1>
+    </div>
+  </ion-header>
+  <ion-content class="ion-padding goals-list">
+    @for (chat of chats; track chat.id) {
+      <ion-card (click)="navigateChat(chat.id)" class="goal-card goals-list__item">
+        <ion-card-header>
+          <ion-card-title>{{ chat.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>chat id: {{ chat.id }}</p>
+        </ion-card-content>
+      </ion-card>
+    }
+  </ion-content>
+</app-wrapper>

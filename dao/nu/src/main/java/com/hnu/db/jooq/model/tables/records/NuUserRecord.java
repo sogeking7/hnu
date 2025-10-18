@@ -161,6 +161,34 @@ public class NuUserRecord extends UpdatableRecordImpl<NuUserRecord> {
         return (String) get(9);
     }
 
+    /**
+     * Setter for <code>public.nu_users.iin_</code>.
+     */
+    public void setIin(String value) {
+        set(10, value);
+    }
+
+    /**
+     * Getter for <code>public.nu_users.iin_</code>.
+     */
+    public String getIin() {
+        return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>public.nu_users.birth_date_</code>.
+     */
+    public void setBirthDate(OffsetDateTime value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for <code>public.nu_users.birth_date_</code>.
+     */
+    public OffsetDateTime getBirthDate() {
+        return (OffsetDateTime) get(11);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -184,7 +212,7 @@ public class NuUserRecord extends UpdatableRecordImpl<NuUserRecord> {
     /**
      * Create a detached, initialised NuUserRecord
      */
-    public NuUserRecord(UUID id_, Boolean removed_, OffsetDateTime createDate_, OffsetDateTime modifyDate_, UUID modifyUserId_, Boolean enabled_, String phone_, String firstname_, String lastname_, String patronymic_) {
+    public NuUserRecord(UUID id_, Boolean removed_, OffsetDateTime createDate_, OffsetDateTime modifyDate_, UUID modifyUserId_, Boolean enabled_, String phone_, String firstname_, String lastname_, String patronymic_, String iin_, OffsetDateTime birthDate_) {
         super(NuUsers.NU_USERS);
 
         setId(id_);
@@ -197,6 +225,8 @@ public class NuUserRecord extends UpdatableRecordImpl<NuUserRecord> {
         setFirstname(firstname_);
         setLastname(lastname_);
         setPatronymic(patronymic_);
+        setIin(iin_);
+        setBirthDate(birthDate_);
         resetTouchedOnNotNull();
     }
 }

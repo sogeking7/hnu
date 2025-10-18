@@ -1,5 +1,7 @@
 ### Set Telegram Webhook
-POST https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url= https://e74utkt0c3hs.share.zrok.io/service/api/fcs/telegram/
+
+
+POST https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url=https://mctzebiqh9b5.share.zrok.io/service/api/fcs/telegram/
 Content-Type: application/json
 
 ### Get Telegram Webhook Info
@@ -15,8 +17,13 @@ POST https://api.telegram.org/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/
 Content-Type: application/json
 
 ### Set Telegram Webhook
-POST http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url= http://localhost:9000/service/api/fcs/telegram/
+POST http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url=http://192.168.60.251:9000/service/api/fcs/telegram/
 Content-Type: application/json
+
+### Set Telegram Webhook zrok
+POST http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/setWebhook?url=https://xzigewq89rum.share.zrok.io/service/api/fcs/telegram/
+Content-Type: application/json
+
 
 ### Get Telegram Webhook Info
 GET  http://localhost:8081/bot8050142408:AAGpM7uqflT4EgXtuKZjozt-su0zkBR429Y/getWebhookInfo
@@ -33,7 +40,7 @@ Content-Type: application/json
 
 
 ### simulate Telegram update
-POST http://localhost:9000/service/api/fcs/telegram
+POST http://10.202.29.108:9000/service/api/fcs/telegram
 Content-Type: application/json
 
 {

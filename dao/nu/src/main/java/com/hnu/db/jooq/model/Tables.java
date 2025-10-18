@@ -5,9 +5,12 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuGoalTransactions;
+import com.hnu.db.jooq.model.tables.NuGoals;
 import com.hnu.db.jooq.model.tables.NuOtpRequests;
 import com.hnu.db.jooq.model.tables.NuOtps;
 import com.hnu.db.jooq.model.tables.NuSessions;
+import com.hnu.db.jooq.model.tables.NuTransactions;
 import com.hnu.db.jooq.model.tables.NuUsers;
 import com.hnu.db.jooq.model.tables.PgpArmorHeaders;
 import com.hnu.db.jooq.model.tables.TgUsers;
@@ -30,6 +33,16 @@ public class Tables {
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
+     * The table <code>public.nu_goal_transactions</code>.
+     */
+    public static final NuGoalTransactions NU_GOAL_TRANSACTIONS = NuGoalTransactions.NU_GOAL_TRANSACTIONS;
+
+    /**
+     * The table <code>public.nu_goals</code>.
+     */
+    public static final NuGoals NU_GOALS = NuGoals.NU_GOALS;
+
+    /**
      * The table <code>public.nu_otp_requests</code>.
      */
     public static final NuOtpRequests NU_OTP_REQUESTS = NuOtpRequests.NU_OTP_REQUESTS;
@@ -43,6 +56,11 @@ public class Tables {
      * The table <code>public.nu_sessions</code>.
      */
     public static final NuSessions NU_SESSIONS = NuSessions.NU_SESSIONS;
+
+    /**
+     * The table <code>public.nu_transactions</code>.
+     */
+    public static final NuTransactions NU_TRANSACTIONS = NuTransactions.NU_TRANSACTIONS;
 
     /**
      * The table <code>public.nu_users</code>.

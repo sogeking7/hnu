@@ -1,38 +1,38 @@
 <app-wrapper>
-  <ion-content [fullscreen]="true">
-    <div class="hx__top">
-      <div class="hx__toolbar">
-        <h1 class="hx__toolbar__title">Profile</h1>
-      </div>
+  <ion-header class="hx__top" collapse="condense">
+    <div class="hx__toolbar">
+      <ion-icon (click)="close()" src="/assets/icons/close-circle.svg" class="content__close"></ion-icon>
+      <h1 class="hx__toolbar__title">Profile</h1>
+      <ion-icon></ion-icon>
     </div>
-    <ion-content class="ion-padding">
-      <ion-grid>
-        @if (user) {
-          <div class="profile__col">
-            <label>Аты</label>
-            <p class="profile__text">{{ user.firstname }}</p>
-          </div>
-          <div class="profile__col">
-            <label>Тегі</label>
-            <p class="profile__text">{{ user.lastname }}</p>
-          </div>
-          <div class="profile__col">
-            <label>Телефон нөмірі</label>
-            <p class="profile__text">{{ user.phone | phone }}</p>
-          </div>
-        }
-        <ion-button class="ion-button--text" fill="outline" (click)="logout()" [hxLoading]="isLoading.logout">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path opacity="0.4"
-                  d="M12.75 10.2V23.7858C12.75 28.3333 15.5833 31.1667 20.1167 31.1667H23.7858C28.3192 31.1667 31.1525 28.3333 31.1525 23.8V10.2C31.1667 5.66668 28.3333 2.83334 23.8 2.83334H20.1167C15.5833 2.83334 12.75 5.66668 12.75 10.2Z"
-                  fill="#D64545"/>
-            <path
-              d="M7.89087 11.5033L3.14504 16.2492C2.73421 16.66 2.73421 17.34 3.14504 17.7508L7.89087 22.4967C8.30171 22.9075 8.98171 22.9075 9.39254 22.4967C9.80337 22.0858 9.80337 21.4058 9.39254 20.995L6.46004 18.0625H21.6042C22.185 18.0625 22.6667 17.5808 22.6667 17C22.6667 16.4192 22.185 15.9375 21.6042 15.9375H6.46004L9.39254 13.005C9.60504 12.7925 9.70421 12.5233 9.70421 12.2542C9.70421 11.985 9.60504 11.7017 9.39254 11.5033C8.98171 11.0783 8.31587 11.0783 7.89087 11.5033Z"
-              fill="#D64545"/>
-          </svg>
-          <span>{{ 'Шығу' }}</span>
-        </ion-button>
-      </ion-grid>
-    </ion-content>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-grid>
+      @if (user) {
+        <div class="profile__col">
+          <label>Аты</label>
+          <p class="profile__text">{{ user.firstname }}</p>
+        </div>
+        <div class="profile__col">
+          <label>Тегі</label>
+          <p class="profile__text">{{ user.lastname }}</p>
+        </div>
+        <div class="profile__col">
+          <label>Телефон нөмірі</label>
+          <p class="profile__text">{{ user.phone | phone }}</p>
+        </div>
+      }
+      <ion-button class="ion-button--text" fill="outline" (click)="logout()" [hxLoading]="isLoading.logout">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path opacity="0.4"
+                d="M12.75 10.2V23.7858C12.75 28.3333 15.5833 31.1667 20.1167 31.1667H23.7858C28.3192 31.1667 31.1525 28.3333 31.1525 23.8V10.2C31.1667 5.66668 28.3333 2.83334 23.8 2.83334H20.1167C15.5833 2.83334 12.75 5.66668 12.75 10.2Z"
+                fill="#D64545"/>
+          <path
+            d="M7.89087 11.5033L3.14504 16.2492C2.73421 16.66 2.73421 17.34 3.14504 17.7508L7.89087 22.4967C8.30171 22.9075 8.98171 22.9075 9.39254 22.4967C9.80337 22.0858 9.80337 21.4058 9.39254 20.995L6.46004 18.0625H21.6042C22.185 18.0625 22.6667 17.5808 22.6667 17C22.6667 16.4192 22.185 15.9375 21.6042 15.9375H6.46004L9.39254 13.005C9.60504 12.7925 9.70421 12.5233 9.70421 12.2542C9.70421 11.985 9.60504 11.7017 9.39254 11.5033C8.98171 11.0783 8.31587 11.0783 7.89087 11.5033Z"
+            fill="#D64545"/>
+        </svg>
+        <span>{{ 'Шығу' }}</span>
+      </ion-button>
+    </ion-grid>
   </ion-content>
 </app-wrapper>

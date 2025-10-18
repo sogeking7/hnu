@@ -2,7 +2,6 @@ package com.hnu.db.user;
 
 import com.hnu.db.jooq.model.tables.records.NuUserRecord;
 import com.hnu.db.user.dto.UserDto;
-import common.util.PagedList;
 import jakarta.validation.constraints.NotNull;
 import org.jooq.DSLContext;
 
@@ -18,17 +17,20 @@ public interface UserDao {
 		return new UserDaoImpl(dsl);
 	}
 
-	@NotNull UserDto insertUser(Consumer<NuUserRecord> fn);
+	@NotNull
+	UserDto insertUser(Consumer<NuUserRecord> fn);
 
 	Optional<UserDto> findByPhone(String phone);
 
 	boolean existsByPhone(String phone);
 
-	@NotNull UserDto update(Consumer<NuUserRecord> fn, @NotNull UUID id);
+	@NotNull
+	UserDto update(Consumer<NuUserRecord> fn, @NotNull UUID id);
 
-	@NotNull UserDto findById(@NotNull UUID id);
+	@NotNull
+	UserDto findById(@NotNull UUID id);
 
-	PagedList<UserDto> find(FindParams params);
+	List<UserDto> find();
 
 	UserDto lockById(UUID userId);
 

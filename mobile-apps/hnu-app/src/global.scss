@@ -48,7 +48,7 @@
   --ion-color-success-rgb: 209, 250, 229;
   --ion-button-success-contrast: #fff;
   --discount-background-color: #D1FAE5;
-  --background-color-gray: #E5E7EB;
+  --background-color-gray: #f7f7f7;
 
   // design color
   --color-black: #152F38;
@@ -77,23 +77,55 @@
   --color-text-red-primary: #D64545;
 
   // brand colors
-  --brand-background: #F0FBFB;
-  --brand-background-light: #F9FAFB;
-  --brand-background-dark: #297B8A;
-  --brand-label: #285661;
+  //--brand-background: #F0FBFB;
+  //--brand-background-light: #F9FAFB;
+  //--brand-background-dark: #297B8A;
+  //--brand-label: #285661;
+  //
+  //--brand-color-text: #309DAA;
+  //
+  //--brand-button-background: #309DAA;
+  //--brand-button-dark: #286876;
+  //--brand-button-light: #D9F3F3;
+  //
+  //--ion-color-primary: #309DAA;
+  //--ion-color-primary-rgb: 48,157,170;
+  //--ion-color-primary-contrast: #000000;
+  //--ion-color-primary-contrast-rgb: 0,0,0;
+  //--ion-color-primary-shade: #2a8a96;
+  //--ion-color-primary-tint: #45a7b3;
 
-  --brand-color-text: #309DAA;
+  /* === Zaman Palette === */
+  --zaman-persian-green: #2D9A86;
+  --zaman-solar: #EEFE6D;
+  --zaman-cloud: #FFFFFF;
 
-  --brand-button-background: #309DAA;
-  --brand-button-dark: #286876;
-  --brand-button-light: #D9F3F3;
+  /* === Ionic Primary Color (Zaman Persian Green) === */
+  --ion-color-primary: var(--zaman-persian-green);
+  --ion-color-primary-rgb: 45, 154, 134;
+  --ion-color-primary-contrast: var(--zaman-cloud);
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  /* Slightly darker for pressed states */
+  --ion-color-primary-shade: #278975;
+  /* Slightly lighter for hover/focus */
+  --ion-color-primary-tint: #43AD9A;
 
-  --ion-color-primary: #309DAA;
-  --ion-color-primary-rgb: 48,157,170;
-  --ion-color-primary-contrast: #000000;
-  --ion-color-primary-contrast-rgb: 0,0,0;
-  --ion-color-primary-shade: #2a8a96;
-  --ion-color-primary-tint: #45a7b3;
+  /* === Brand Hooks updated to Zaman palette === */
+  --brand-color-text: var(--zaman-persian-green);
+
+  --brand-button-background: var(--zaman-persian-green);
+  /* Darker variant for hover/active */
+  --brand-button-dark: #237E6D;
+  /* Light/secondary accent using Zaman Solar */
+  --brand-button-light: var(--zaman-solar);
+
+  /* Optional: backgrounds that feel on-brand */
+  --brand-background: #F5FFFD;          /* very light teal wash (optional) */
+  --brand-background-light: var(--zaman-cloud);
+  --brand-background-dark: #1E6F62;     /* deeper green for dark surfaces */
+  --brand-label: #1F5A50;
+
+  /* Components that referenced brand button color will auto-pick this up */
 
   // header
   --header-group-button-background: var(--color-gray);
@@ -431,7 +463,7 @@ body {
 }
 
 ion-content {
-  --background: var(--color-white);
+  --background: var(--background-color-gray);
 }
 
 //
@@ -949,11 +981,25 @@ ion-segment-button::part(indicator) {
 }
 
 .hx__toolbar {
+  height: 55px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
   padding: 14px var(--ion-padding, 16px);
 
   h1 {
     margin: 0;
-    font-size: 32px;
+    font-size: 20px;
     font-weight: 600;
   }
+
+  color: var(--color-black);
+  &__title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-black);
+  }
 }
+

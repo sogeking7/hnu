@@ -1,0 +1,32 @@
+<app-wrapper>
+  <ion-content [fullscreen]="true" class="hx__chat">
+    <!-- Header -->
+    <div class="hx__top">
+      <div class="hx__toolbar">
+        <ion-icon (click)="close()" src="/assets/icons/close-circle.svg" class="content__close"></ion-icon>
+        <h1 class="hx__toolbar__title">{{data?.name}}</h1>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="hx__messages">
+      <div *ngFor="let m of messages" class="msg" [class.me]="m.role === 'me'">
+        <div class="bubble">
+          <div class="text">{{ m.text }}</div>
+          <div class="time">{{ m.time }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="hx__input">
+      <input
+        type="text"
+        placeholder="Type a message…"
+        [(ngModel)]="draft"
+        (keyup.enter)="send()"
+      />
+      <button (click)="send()" [disabled]="!draft.trim()">Send</button>
+    </div>
+  </ion-content>
+</app-wrapper>

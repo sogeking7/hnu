@@ -5,9 +5,12 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuGoalTransactions;
+import com.hnu.db.jooq.model.tables.NuGoals;
 import com.hnu.db.jooq.model.tables.NuOtpRequests;
 import com.hnu.db.jooq.model.tables.NuOtps;
 import com.hnu.db.jooq.model.tables.NuSessions;
+import com.hnu.db.jooq.model.tables.NuTransactions;
 import com.hnu.db.jooq.model.tables.NuUsers;
 import com.hnu.db.jooq.model.tables.PgpArmorHeaders;
 import com.hnu.db.jooq.model.tables.TgUsers;
@@ -44,6 +47,16 @@ public class Public extends SchemaImpl {
     public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
+     * The table <code>public.nu_goal_transactions</code>.
+     */
+    public final NuGoalTransactions NU_GOAL_TRANSACTIONS = NuGoalTransactions.NU_GOAL_TRANSACTIONS;
+
+    /**
+     * The table <code>public.nu_goals</code>.
+     */
+    public final NuGoals NU_GOALS = NuGoals.NU_GOALS;
+
+    /**
      * The table <code>public.nu_otp_requests</code>.
      */
     public final NuOtpRequests NU_OTP_REQUESTS = NuOtpRequests.NU_OTP_REQUESTS;
@@ -57,6 +70,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.nu_sessions</code>.
      */
     public final NuSessions NU_SESSIONS = NuSessions.NU_SESSIONS;
+
+    /**
+     * The table <code>public.nu_transactions</code>.
+     */
+    public final NuTransactions NU_TRANSACTIONS = NuTransactions.NU_TRANSACTIONS;
 
     /**
      * The table <code>public.nu_users</code>.
@@ -124,9 +142,12 @@ public class Public extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+            NuGoalTransactions.NU_GOAL_TRANSACTIONS,
+            NuGoals.NU_GOALS,
             NuOtpRequests.NU_OTP_REQUESTS,
             NuOtps.NU_OTPS,
             NuSessions.NU_SESSIONS,
+            NuTransactions.NU_TRANSACTIONS,
             NuUsers.NU_USERS,
             PgpArmorHeaders.PGP_ARMOR_HEADERS,
             TgUsers.TG_USERS

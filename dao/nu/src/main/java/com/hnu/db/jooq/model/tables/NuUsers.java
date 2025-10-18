@@ -103,6 +103,16 @@ public class NuUsers extends TableImpl<NuUserRecord> {
      */
     public final TableField<NuUserRecord, String> PATRONYMIC = createField(DSL.name("patronymic_"), SQLDataType.VARCHAR(255), this, "");
 
+    /**
+     * The column <code>public.nu_users.iin_</code>.
+     */
+    public final TableField<NuUserRecord, String> IIN = createField(DSL.name("iin_"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.nu_users.birth_date_</code>.
+     */
+    public final TableField<NuUserRecord, OffsetDateTime> BIRTH_DATE = createField(DSL.name("birth_date_"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "");
+
     private NuUsers(Name alias, Table<NuUserRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }

@@ -5,13 +5,19 @@ package com.hnu.db.jooq.model;
 
 
 import com.hnu.db.jooq.model.tables.FlywaySchemaHistory;
+import com.hnu.db.jooq.model.tables.NuGoalTransactions;
+import com.hnu.db.jooq.model.tables.NuGoals;
 import com.hnu.db.jooq.model.tables.NuOtpRequests;
 import com.hnu.db.jooq.model.tables.NuOtps;
+import com.hnu.db.jooq.model.tables.NuTransactions;
 import com.hnu.db.jooq.model.tables.NuUsers;
 import com.hnu.db.jooq.model.tables.TgUsers;
 import com.hnu.db.jooq.model.tables.records.FlywaySchemaHistoryRecord;
+import com.hnu.db.jooq.model.tables.records.NuGoalRecord;
+import com.hnu.db.jooq.model.tables.records.NuGoalTransactionRecord;
 import com.hnu.db.jooq.model.tables.records.NuOtpRecord;
 import com.hnu.db.jooq.model.tables.records.NuOtpRequestRecord;
+import com.hnu.db.jooq.model.tables.records.NuTransactionRecord;
 import com.hnu.db.jooq.model.tables.records.NuUserRecord;
 import com.hnu.db.jooq.model.tables.records.TgUserRecord;
 
@@ -33,8 +39,11 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), new TableField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK }, true);
+    public static final UniqueKey<NuGoalTransactionRecord> NU_GOAL_TRANSACTIONS_PKEY = Internal.createUniqueKey(NuGoalTransactions.NU_GOAL_TRANSACTIONS, DSL.name("nu_goal_transactions_pkey"), new TableField[] { NuGoalTransactions.NU_GOAL_TRANSACTIONS.ID }, true);
+    public static final UniqueKey<NuGoalRecord> NU_GOALS_PKEY = Internal.createUniqueKey(NuGoals.NU_GOALS, DSL.name("nu_goals_pkey"), new TableField[] { NuGoals.NU_GOALS.ID }, true);
     public static final UniqueKey<NuOtpRequestRecord> NU_OTP_REQUESTS_PKEY = Internal.createUniqueKey(NuOtpRequests.NU_OTP_REQUESTS, DSL.name("nu_otp_requests_pkey"), new TableField[] { NuOtpRequests.NU_OTP_REQUESTS.ID }, true);
     public static final UniqueKey<NuOtpRecord> NU_OTPS_PKEY = Internal.createUniqueKey(NuOtps.NU_OTPS, DSL.name("nu_otps_pkey"), new TableField[] { NuOtps.NU_OTPS.ID }, true);
+    public static final UniqueKey<NuTransactionRecord> NU_TRANSACTIONS_PKEY = Internal.createUniqueKey(NuTransactions.NU_TRANSACTIONS, DSL.name("nu_transactions_pkey"), new TableField[] { NuTransactions.NU_TRANSACTIONS.ID }, true);
     public static final UniqueKey<NuUserRecord> NU_USERS_PHONE__KEY = Internal.createUniqueKey(NuUsers.NU_USERS, DSL.name("nu_users_phone__key"), new TableField[] { NuUsers.NU_USERS.PHONE }, true);
     public static final UniqueKey<NuUserRecord> NU_USERS_PKEY = Internal.createUniqueKey(NuUsers.NU_USERS, DSL.name("nu_users_pkey"), new TableField[] { NuUsers.NU_USERS.ID }, true);
     public static final UniqueKey<TgUserRecord> TG_USERS_PHONE__KEY = Internal.createUniqueKey(TgUsers.TG_USERS, DSL.name("tg_users_phone__key"), new TableField[] { TgUsers.TG_USERS.PHONE }, true);

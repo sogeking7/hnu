@@ -18,7 +18,9 @@ public record UserDto(
 	@NotNull String phone,
 	String firstname,
 	String lastname,
-	String patronymic
+	String patronymic,
+	String iin,
+	OffsetDateTime birthDate
 ) {
 
 	public static final String className = "User";
@@ -41,7 +43,9 @@ public record UserDto(
 			record.getPhone(),
 			record.getFirstname(),
 			record.getLastname(),
-			record.getPatronymic()
+			record.getPatronymic(),
+			record.getIin(),
+			record.getBirthDate()
 		);
 	}
 

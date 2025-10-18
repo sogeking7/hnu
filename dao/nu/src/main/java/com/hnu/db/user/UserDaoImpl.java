@@ -75,78 +75,10 @@ public class UserDaoImpl extends JooqDb implements UserDao {
 	}
 
 	@Override
-	public PagedList<UserDto> find(FindParams params) {
-		if (params.page == null || params.page < 1) {
-			params.page = 1;
-		}
-
-		if (params.limit == null || params.limit <= 0) {
-			params.limit = 20;
-		}
-
-		SelectQuery<NuUserRecord> selectQuery = db.selectQuery(u);
-		selectQuery.addConditions(u.REMOVED.isFalse());
-
-		if (Lists.isNotEmpty(params.ids)) {
-			selectQuery.addConditions(u.ID.in(params.ids));
-			selectQuery.addOrderBy(u.ID);
-			List<UserDto> list = selectQuery.fetch(UserDto::of);
-			return PagedList.of(list, list.size());
-		}
-
-		boolean includeDisabled = Booleans.val(params.includeDisabled);
-		if (!includeDisabled) {
-			selectQuery.addConditions(u.ENABLED.isTrue());
-		}
-
-		Optional.ofNullable(params.createDateFrom)
-			.map(u.CREATE_DATE.cast(LocalDate.class)::ge)
-			.ifPresent(selectQuery::addConditions);
-
-		Optional.ofNullable(params.createDateTo)
-			.map(u.CREATE_DATE.cast(LocalDate.class)::le)
-			.ifPresent(selectQuery::addConditions);
-
-		if (params.query != null) {
-			var searchText = params.query;
-			if (Strings.isNumeric(searchText)) {
-				searchText = "%" + searchText + "%";
-				selectQuery.addConditions(u.PHONE.likeIgnoreCase(searchText));
-			} else {
-				searchText = "%" + searchText + "%";
-				selectQuery.addConditions(u.LASTNAME.likeIgnoreCase(searchText).or(u.FIRSTNAME.likeIgnoreCase(searchText)));
-			}
-		}
-
-		int count = db.fetchCount(selectQuery);
-		selectQuery.addOffset((params.page - 1) * params.limit);
-		selectQuery.addLimit(params.limit);
-
-		if (Lists.isEmpty(params.sort)) {
-			selectQuery.addOrderBy(u.CREATE_DATE);
-		} else {
-			Map<String, Field> orderFieldMap = Map.of(
-				"create_date", u.CREATE_DATE
-			);
-			List<OrderField> sortFields = params.sort.stream()
-				.map(sortStr -> {
-					String[] arr = sortStr.split(":");
-					return Pair.of(arr[0], SortType.valueOf(arr[1]));
-				})
-				.filter(pair -> orderFieldMap.containsKey(pair.getLeft()))
-				.map(sortPair -> {
-					String column = sortPair.getLeft();
-					SortType sortType = sortPair.getRight();
-					return orderFieldMap.get(column).sort(SortOrder.valueOf(sortType.name().toUpperCase()));
-				})
-				.collect(Collectors.toList());
-			if (!sortFields.isEmpty()) {
-				selectQuery.addOrderBy(sortFields.toArray(OrderField[]::new));
-			}
-		}
-
-		List<UserDto> list = selectQuery.fetch(UserDto::of);
-		return PagedList.of(list, count);
+	public List<UserDto> find() {
+		return db.selectFrom(u)
+			.where(u.REMOVED.isFalse())
+			.fetch(UserDto::of);
 	}
 
 	@Override

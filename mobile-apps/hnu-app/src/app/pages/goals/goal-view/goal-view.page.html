@@ -1,0 +1,22 @@
+<app-wrapper>
+
+  <ion-header class="hx__top" collapse="condense">
+    <div class="hx__toolbar">
+      <ion-icon (click)="close()" src="/assets/icons/close-circle.svg" class="content__close"></ion-icon>
+    </div>
+  </ion-header>
+  <ion-content class="ion-padding goals-list">
+    @if (data) {
+      <h1 class="goal_title">{{ data.name }}</h1>
+
+      <div>
+        <p>Target: {{ data.target }}</p>
+        <p>Duration month: {{ data.durationMonth }}</p>
+        <p>Monthly Invest {{ data.monthlyInvest }}</p>
+        <p>Balance: {{ data.balance }}</p>
+        <p>EstimatedDate: {{ data.estimatedDate }}</p>
+        <p>Completed {{ data.completed }}</p>
+      </div>
+    }
+  </ion-content>
+</app-wrapper>

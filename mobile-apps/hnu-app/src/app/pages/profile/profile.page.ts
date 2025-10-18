@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonButton, IonContent, IonGrid } from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonGrid, IonHeader, IonIcon, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { WrapperComponent } from '@hnu-app/components/wrapper/wrapper.component';
 import { HxLoadingDirective } from '@hnu-app/directives/loading/loading.directive';
 import { AuthService } from '@hnu-app/services/auth.service';
 import { Router } from '@angular/router';
 import { AuthUserModel } from '@hnu-app/nu-api';
 import { PhonePipe } from '@hnu-app/pipes/phone.pipe';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile-page',
@@ -17,7 +18,11 @@ import { PhonePipe } from '@hnu-app/pipes/phone.pipe';
     IonGrid,
     IonButton,
     HxLoadingDirective,
-    PhonePipe
+    PhonePipe,
+    IonToolbar,
+    IonTitle,
+    IonHeader,
+    IonIcon
   ]
 })
 export class ProfilePage implements OnInit {
@@ -29,6 +34,7 @@ export class ProfilePage implements OnInit {
 
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly location = inject(Location);
 
   async ngOnInit() {
     await this.loadUser();
@@ -51,5 +57,9 @@ export class ProfilePage implements OnInit {
     } finally {
       this.isLoading.logout = false;
     }
+  }
+
+  close() {
+    this.location.back();
   }
 }

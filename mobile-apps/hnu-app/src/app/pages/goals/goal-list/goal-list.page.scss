@@ -1,0 +1,34 @@
+.goal-card {
+  border: 1px solid #ccc;
+  border-radius: 18px;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-white);
+}
+
+.goals-list {
+  margin: 0;
+  padding: 0 0 60px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  &__item {
+    margin-bottom: 16px;
+    border-width: 0;
+  }
+}
+
+.ion-fab {
+  bottom: 76px;
+  position: absolute;
+
+  &__button {
+    --background: var(--zaman-solar);
+    --background-hover: var(--zaman-solar);
+    --background-activated: var(--zaman-solar);
+    --color: var(--zaman-persian-green);
+
+
+  }
+}

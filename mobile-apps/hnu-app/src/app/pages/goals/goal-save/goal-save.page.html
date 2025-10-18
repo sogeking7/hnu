@@ -1,0 +1,47 @@
+<app-wrapper>
+
+  <ion-header class="hx__top" collapse="condense">
+    <div class="hx__toolbar">
+      <ion-icon (click)="close()" src="/assets/icons/close-circle.svg" class="content__close"></ion-icon>
+    </div>
+  </ion-header>
+  <ion-content class="ion-padding goals-list">
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding ion-padding-end">
+          <ion-label class="ion-margin-start ion-label">
+            Name
+          </ion-label>
+          <ion-input type="number" formControlName="name"/>
+        </ion-col>
+        <ion-col class="ion-no-padding ion-padding-end">
+          <ion-label class="ion-margin-start ion-label">
+            Target
+          </ion-label>
+          <ion-input type="number" formControlName="target"/>
+        </ion-col>
+        <ion-col class="ion-no-padding">
+          <ion-label class="ion-margin-start ion-label">
+            MonthlyInvest
+          </ion-label>
+          <ion-input type="number" formControlName="monthlyInvest"/>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding ion-margin-bottom ion-margin-top">
+        <ion-col size="auto" class="ion-no-padding ion-padding-end">
+          <ion-label class="ion-label ion-margin-start ion-margin-bottom">
+            Duration Month
+          </ion-label>
+          <ion-input type="number" formControlName="durationMonth"/>
+        </ion-col>
+      </ion-row>
+      <div class="footer ion-padding-top">
+        <ion-row class="footer__container">
+          <ion-button type="submit" [disabled]="form.pristine || form.pending"  [hxLoading]="isLoading.save" color="success">
+            Save
+          </ion-button>
+        </ion-row>
+      </div>
+    </form>
+  </ion-content>
+</app-wrapper>

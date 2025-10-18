@@ -40,6 +40,7 @@ const customHttpInterceptorFn: HttpInterceptorFn = (req, next) => {
     switchMap(([token]) => {
       let headers = new HttpHeaders({
         'Accept': 'application/json',
+        'x-client-app-version': '1.0.0'
       });
       if (token) {
         headers = headers.set('Authorization', 'Bearer ' + token);
@@ -52,7 +53,7 @@ const customHttpInterceptorFn: HttpInterceptorFn = (req, next) => {
         router.navigate(['/login']);
       } else if (err.status === 470) {
         router.navigate(['/update']);
-      } else if ([570].includes(err.status)) {
+      } else if (err.status) {
         let error = err.error;
         if (req.responseType === 'arraybuffer') {
           error = JSON.parse(new TextDecoder().decode(err.error));

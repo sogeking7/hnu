@@ -1,0 +1,31 @@
+<app-wrapper>
+  <ion-header class="hx__top" collapse="condense">
+    <div class="hx__toolbar">
+      <h1 class="hx__toolbar__title">My Goals</h1>
+    </div>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ul class="goals-list">
+      @for (goal of goals; track goal.id) {
+        <ion-card (click)="navigateGoal(goal.id)" class="goal-card goals-list__item">
+          <ion-card-header>
+            <ion-card-title>{{ goal.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Target: {{ goal.target }}</p>
+            <p>Duration month: {{ goal.durationMonth }}</p>
+            <p>Monthly Invest {{ goal.monthlyInvest }}</p>
+            <p>Balance: {{ goal.balance }}</p>
+            <p>EstimatedDate: {{ goal.estimatedDate }}</p>
+            <p>Completed {{ goal.completed }}</p>
+          </ion-card-content>
+        </ion-card>
+      }
+    </ul>
+    <ion-fab class="ion-fab" horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button class="ion-fab__button" (click)="createGoal()">
+        <ion-icon name="add" src="/assets/icons/plus.svg" ></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</app-wrapper>

@@ -18,11 +18,12 @@ import {
 } from 'ionicons/icons';
 import { AuthService } from '@hnu-app/services/auth.service';
 import { LoaderComponent } from '@hnu-app/components/loader/loader.component';
+import { TabsPage } from '@hnu-app/pages/tabs/tabs.page';
 
 @Component({
   imports: [
     CommonModule, IonApp, IonRouterOutlet,
-    LoaderComponent, IonTabs, IonTabButton, IonTabBar, IonIcon, IonLabel,
+    LoaderComponent, IonTabs, IonTabButton, IonTabBar, IonIcon, IonLabel, TabsPage,
   ],
   selector: 'app-layout',
   templateUrl: './layout.page.html',
