@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface TransactionDao {
 	public List<TransactionDto> findTransactionsByUserId(UUID userId);
+	public List<TransactionDto> findTransactions();
 }

@@ -20,4 +20,9 @@ public class TransactionResource {
 		return transactionService.getTransactionsByUserId(userId).stream().map(TransactionModel::of).toList();
 	}
 
+	@GET
+	@Path("/")
+	public List<TransactionModel> getTransactions() {
+		return transactionService.getTransactions().stream().map(TransactionModel::of).toList();
+	}
 }

@@ -465,6 +465,21 @@ paths:
       summary: Get Goal By Id
       tags:
       - Goal Resource
+  /api/hnu/transactions:
+    get:
+      operationId: getTransactions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransactionModel"
+      summary: Get Transactions
+      tags:
+      - Transaction Resource
   /api/hnu/transactions/user/{userId}:
     get:
       operationId: getUserTransactions

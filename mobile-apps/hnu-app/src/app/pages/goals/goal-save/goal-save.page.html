@@ -3,41 +3,49 @@
   <ion-header class="hx__top" collapse="condense">
     <div class="hx__toolbar">
       <ion-icon (click)="close()" src="/assets/icons/close-circle.svg" class="content__close"></ion-icon>
+      <h1 class="hx__toolbar__title">New Goal</h1>
     </div>
   </ion-header>
   <ion-content class="ion-padding goals-list">
     <form [formGroup]="form" (ngSubmit)="save()">
-      <ion-row class="ion-no-padding">
-        <ion-col class="ion-no-padding ion-padding-end">
+      <ion-row class="ion-no-padding ion-margin-bottom ion-margin-top">
+        <ion-col class="ion-no-padding">
           <ion-label class="ion-margin-start ion-label">
             Name
           </ion-label>
-          <ion-input type="number" formControlName="name"/>
-        </ion-col>
-        <ion-col class="ion-no-padding ion-padding-end">
-          <ion-label class="ion-margin-start ion-label">
-            Target
-          </ion-label>
-          <ion-input type="number" formControlName="target"/>
-        </ion-col>
-        <ion-col class="ion-no-padding">
-          <ion-label class="ion-margin-start ion-label">
-            MonthlyInvest
-          </ion-label>
-          <ion-input type="number" formControlName="monthlyInvest"/>
+          <ion-input [required]="true" class="text-input-number is--sum fcs-input" type="text" formControlName="name"/>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding ion-margin-bottom ion-margin-top">
-        <ion-col size="auto" class="ion-no-padding ion-padding-end">
+        <ion-col class="ion-no-padding">
+          <ion-label class="ion-margin-start ion-label">
+            Target
+          </ion-label>
+          <ion-input [required]="true" pattern="^[0-9]*$" class="text-input-number is--sum fcs-input" type="number"
+                     formControlName="target"/>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-no-padding ion-margin-bottom ion-margin-top">
+          <ion-label class="ion-margin-start ion-label">
+            MonthlyInvest
+          </ion-label>
+          <ion-input [required]="true" pattern="^[0-9]*$" class="text-input-number is--sum fcs-input" type="number"
+                     formControlName="monthlyInvest"/>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding ion-margin-bottom ion-margin-top">
+        <ion-col class="ion-no-padding">
           <ion-label class="ion-label ion-margin-start ion-margin-bottom">
             Duration Month
           </ion-label>
-          <ion-input type="number" formControlName="durationMonth"/>
+          <ion-input [required]="true" pattern="^[0-9]*$" class="text-input-number is--sum fcs-input" type="number"
+                     formControlName="durationMonth"/>
         </ion-col>
       </ion-row>
       <div class="footer ion-padding-top">
         <ion-row class="footer__container">
-          <ion-button type="submit" [disabled]="form.pristine || form.pending"  [hxLoading]="isLoading.save" color="success">
+          <ion-button type="submit" [disabled]="form.pristine || form.pending" [hxLoading]="isLoading.save" color="success">
             Save
           </ion-button>
         </ion-row>

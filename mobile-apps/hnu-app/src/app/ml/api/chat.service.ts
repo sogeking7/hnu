@@ -23,6 +23,8 @@ import { ChatResponse } from '../model/chat-response';
 // @ts-ignore
 import { ConversationDetail } from '../model/conversation-detail';
 // @ts-ignore
+import { ConversationHistoryResponse } from '../model/conversation-history-response';
+// @ts-ignore
 import { CreateConversationRequest } from '../model/create-conversation-request';
 // @ts-ignore
 import { CreateConversationResponse } from '../model/create-conversation-response';
@@ -243,14 +245,14 @@ export class ChatService extends BaseService {
 
     /**
      * Get Conversation Messages
-     * Get all messages for a specific conversation.  Returns messages in OpenAI format: [     {\&quot;role\&quot;: \&quot;user\&quot;, \&quot;content\&quot;: \&quot;Hello\&quot;},     {\&quot;role\&quot;: \&quot;assistant\&quot;, \&quot;content\&quot;: \&quot;Hi there!\&quot;} ]
+     * Get all messages for a specific conversation.  Returns conversation history with messages in the format: {     \&quot;conversation_id\&quot;: \&quot;uuid\&quot;,     \&quot;messages\&quot;: [         {\&quot;role\&quot;: \&quot;user\&quot;, \&quot;content\&quot;: \&quot;Hello\&quot;},         {\&quot;role\&quot;: \&quot;assistant\&quot;, \&quot;content\&quot;: \&quot;Hi there!\&quot;}     ] }
      * @param conversationId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<{ [key: string]: string; }>>;
-    public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<{ [key: string]: string; }>>>;
-    public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<{ [key: string]: string; }>>>;
+    public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ConversationHistoryResponse>;
+    public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ConversationHistoryResponse>>;
+    public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ConversationHistoryResponse>>;
     public getConversationMessagesConversationsConversationIdMessagesGet(conversationId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (conversationId === null || conversationId === undefined) {
             throw new Error('Required parameter conversationId was null or undefined when calling getConversationMessagesConversationsConversationIdMessagesGet.');
@@ -283,7 +285,7 @@ export class ChatService extends BaseService {
 
         let localVarPath = `/conversations/${this.configuration.encodeParam({name: "conversationId", value: conversationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/messages`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<{ [key: string]: string; }>>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ConversationHistoryResponse>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

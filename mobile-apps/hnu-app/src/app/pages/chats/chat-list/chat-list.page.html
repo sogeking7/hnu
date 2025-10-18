@@ -5,13 +5,13 @@
     </div>
   </ion-header>
   <ion-content class="ion-padding goals-list">
-    @for (chat of chats; track chat.id) {
-      <ion-card (click)="navigateChat(chat.id)" class="goal-card goals-list__item">
+    @for (chat of chats; track chat.conversation_id) {
+      <ion-card (click)="navigateChat(chat.conversation_id)" class="goal-card goals-list__item">
         <ion-card-header>
-          <ion-card-title>{{ chat.name }}</ion-card-title>
+          <ion-card-title>{{ chat.conversation_name }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <p>chat id: {{ chat.id }}</p>
+          <p>chat id: {{ chat.conversation_id }}</p>
         </ion-card-content>
       </ion-card>
     }

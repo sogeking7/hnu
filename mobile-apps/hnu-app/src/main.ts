@@ -1,26 +1,16 @@
-import {
-  enableProdMode,
-  inject,
-  isDevMode,
-  provideAppInitializer
-} from '@angular/core';
+import { enableProdMode, inject, isDevMode, provideAppInitializer } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, Router, RouteReuseStrategy } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { routes } from '@hnu-app/app.routes';
 import { AppComponent } from '@hnu-app/app.component';
 import { environment } from '@hnu-env/environment';
-import {
-  HttpErrorResponse,
-  HttpHeaders,
-  HttpInterceptorFn,
-  provideHttpClient,
-  withInterceptors
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpInterceptorFn, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideHttpCache, withHttpCacheInterceptor } from '@ngneat/cashew';
 import { catchError, from, switchMap, throwError, zip } from 'rxjs';
 import { AuthService } from '@hnu-app/services/auth.service';
 import { BASE_PATH } from '@hnu-app/nu-api';
+import { BASE_PATH as BASE_PATH_ML } from '@hnu-app/ml';
 import { StorageService } from '@hnu-app/services/storage.service';
 import { ToastService } from '@hnu-app/services/toast.service';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -97,6 +87,10 @@ bootstrapApplication(AppComponent, {
     {
       provide: BASE_PATH,
       useValue: environment.apiUrl,
+    },
+    {
+      provide: BASE_PATH_ML,
+      useValue: environment.mlUrl
     },
     provideIonicAngular({
       mode: 'ios',

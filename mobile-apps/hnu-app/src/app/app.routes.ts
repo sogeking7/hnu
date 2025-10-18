@@ -3,7 +3,7 @@ import { GoalModel } from '@hnu-app/nu-api';
 import { inject } from '@angular/core';
 import { GoalService } from '@hnu-app/services/goal.service';
 import { ChatService } from '@hnu-app/services/chat.service';
-import { ChatModel } from '@hnu-app/services/types/chat-model';
+import { ConversationHistoryResponse } from '@hnu-app/ml';
 
 const goalResolver: ResolveFn<GoalModel> = route => {
   let id = route.paramMap.get('id');
@@ -13,7 +13,7 @@ const goalResolver: ResolveFn<GoalModel> = route => {
   return inject(GoalService).getGoalById(id);
 };
 
-const chatResolver: ResolveFn<ChatModel> = route => {
+const chatResolver: ResolveFn<ConversationHistoryResponse> = route => {
   let id = route.paramMap.get('id');
   if (!id) {
     return Promise.reject('Chat id is undefined');

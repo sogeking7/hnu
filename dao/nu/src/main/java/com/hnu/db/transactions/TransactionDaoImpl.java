@@ -21,4 +21,9 @@ public class TransactionDaoImpl extends JooqDb implements TransactionDao {
 		return db.selectFrom(t).where(t.USER_ID.eq(userId))
 			.fetch(TransactionDto::of);
 	}
+
+	public List<TransactionDto> findTransactions() {
+		return db.selectFrom(t).where(t.REMOVED.isFalse())
+			.fetch(TransactionDto::of);
+	}
 }

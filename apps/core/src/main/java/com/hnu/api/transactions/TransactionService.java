@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface TransactionService {
 	List<TransactionDto> getTransactionsByUserId(UUID userId);
+	List<TransactionDto> getTransactions();
 }

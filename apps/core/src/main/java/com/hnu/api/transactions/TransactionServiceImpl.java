@@ -19,4 +19,8 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<TransactionDto> getTransactionsByUserId(UUID userId) {
 		return transactionDao.findTransactionsByUserId(userId);
 	}
+
+	public List<TransactionDto> getTransactions() {
+		return transactionDao.findTransactions();
+	}
 }

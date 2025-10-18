@@ -3,15 +3,11 @@ import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { WrapperComponent } from '@hnu-app/components/wrapper/wrapper.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChatModel } from '@hnu-app/services/types/chat-model';
 import { ActivatedRoute, Router } from '@angular/router';
-
-type ChatMessage = {
-  id: string;
-  role: 'me' | 'bot';
-  text: string;
-  time: string;
-};
+import { ConversationHistoryResponse, MessageSchema } from '@hnu-app/ml';
+import { ChatService } from '@hnu-app/services/chat.service';
+import { AuthUserModel } from '@hnu-app/nu-api';
+import { AuthService } from '@hnu-app/services/auth.service';
 
 @Component({
   selector: 'app-chats-view-page',
@@ -22,47 +18,75 @@ type ChatMessage = {
 export class ChatViewPage implements OnInit {
   @ViewChild(IonContent) content?: IonContent;
 
-  data?: ChatModel;
-  messages: ChatMessage[] = [
-    {id: crypto.randomUUID(), role: 'bot', text: 'Hi! How can I help?', time: this.now()},
-  ];
+  user?: AuthUserModel;
+  data?: ConversationHistoryResponse;
+  messages: MessageSchema[] = [];
 
+  isLoading = {
+    send: false,
+    user: false,
+  };
   draft = '';
 
   private readonly aRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly chatService = inject(ChatService);
+  private readonly auth = inject(AuthService);
 
   constructor() {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.loadUser();
     this.data = this.aRoute.snapshot.data['chat'] ?? undefined;
+    this.messages = this.data ? this.data.messages : [];
   }
 
-  send(): void {
+  async loadUser() {
+    this.isLoading.user = true;
+    try {
+      const res = await this.auth.getMyUserInfo();
+      this.user = res;
+    } finally {
+      this.isLoading.user = false;
+    }
+  }
+
+  async send() {
+    console.log(this.user);
+    console.log(this.data);
+
+    if (!this.data || !this.user) {
+      return;
+    }
     const text = this.draft.trim();
-    if (!text) return;
+    if (!text) {
+      return;
+    }
 
-    // Push my message
-    this.messages.push({
-      id: crypto.randomUUID(),
-      role: 'me',
-      text,
-      time: this.now(),
-    });
-    this.draft = '';
-    this.scrollToBottom();
-
-    // Fake bot reply (for demo)
-    setTimeout(() => {
+    try {
+      this.isLoading.send = true;
       this.messages.push({
-        id: crypto.randomUUID(),
-        role: 'bot',
-        text: 'Got it 👍',
-        time: this.now(),
+        role: 'user',
+        content: this.draft
       });
       this.scrollToBottom();
-    }, 500);
+      this.draft = '';
+      const res = await this.chatService.sendMessage({
+        conversation_id: this.data.conversation_id,
+        user_message: text,
+        user_id: this.user.id,
+        user_name: this.user.lastname + ' ' + this.user.firstname + ' ' + this.user.patronymic,
+      });
+      this.messages.push({
+        role: 'assistant',
+        content: res.assistant_message
+      });
+      this.scrollToBottom();
+
+    } finally {
+      this.isLoading.send = false;
+    }
   }
 
   private scrollToBottom(): void {
