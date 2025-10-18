@@ -8,12 +8,13 @@ import { ConversationHistoryResponse, MessageSchema } from '@hnu-app/ml';
 import { ChatService } from '@hnu-app/services/chat.service';
 import { AuthUserModel } from '@hnu-app/nu-api';
 import { AuthService } from '@hnu-app/services/auth.service';
+import { MicrophoneModal } from '@hnu-app/modals/microphone/microphone.modal';
 
 @Component({
   selector: 'app-chats-view-page',
   templateUrl: 'chat-view.page.html',
   styleUrls: ['chat-view.page.scss'],
-  imports: [IonContent, WrapperComponent, CommonModule, FormsModule, IonIcon],
+  imports: [IonContent, WrapperComponent, CommonModule, FormsModule, IonIcon, MicrophoneModal],
 })
 export class ChatViewPage implements OnInit {
   @ViewChild(IonContent) content?: IonContent;
@@ -53,44 +54,53 @@ export class ChatViewPage implements OnInit {
   }
 
   async send() {
+    const text = this.draft.trim();
+    await this.sendWithText(text);
+  }
+
+  private async sendWithText(text: string) {
     console.log(this.user);
     console.log(this.data);
 
     if (!this.data || !this.user) {
       return;
     }
-    const text = this.draft.trim();
+
     if (!text) {
       return;
     }
 
     try {
       this.isLoading.send = true;
+
       this.messages.push({
         role: 'user',
-        content: this.draft
+        content: text,
       });
       this.scrollToBottom();
-      this.draft = '';
+
+      if (this.draft.trim() === text) {
+        this.draft = '';
+      }
+
       const res = await this.chatService.sendMessage({
         conversation_id: this.data.conversation_id,
         user_message: text,
         user_id: this.user.id,
-        user_name: this.user.lastname + ' ' + this.user.firstname + ' ' + this.user.patronymic,
+        user_name: `${this.user.lastname} ${this.user.firstname} ${this.user.patronymic ?? ''}`.trim(),
       });
+
       this.messages.push({
         role: 'assistant',
-        content: res.assistant_message
+        content: res.assistant_message,
       });
       this.scrollToBottom();
-
     } finally {
       this.isLoading.send = false;
     }
   }
 
   private scrollToBottom(): void {
-    // slight delay so DOM paints first
     setTimeout(() => this.content?.scrollToBottom(200), 0);
   }
 
@@ -101,5 +111,8 @@ export class ChatViewPage implements OnInit {
 
   close() {
     this.router.navigate(['/main/chat']);
+  }
+
+  clickMicro() {
   }
 }

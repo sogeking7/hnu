@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   mode: 'dev',
   apiUrl: '',
-  mlUrl: 'http://10.131.0.58:8011',
+  mlUrl: 'http://10.131.0.19:8011',
   sentryUrl: '',
   version: '',
 };

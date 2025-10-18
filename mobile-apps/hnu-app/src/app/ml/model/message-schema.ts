@@ -15,5 +15,7 @@
 export interface MessageSchema { 
     role: string;
     content: string;
+    intent?: string | null;
+    goal_config?: { [key: string]: any; } | null;
 }
 

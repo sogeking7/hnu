@@ -3,7 +3,8 @@ import {
   ChatRequest,
   ChatResponse,
   ChatService as ChatResourceService,
-  ConversationDetail, ConversationHistoryResponse,
+  ConversationDetail,
+  ConversationHistoryResponse,
   CreateConversationRequest,
   CreateConversationResponse
 } from '@hnu-app/ml';

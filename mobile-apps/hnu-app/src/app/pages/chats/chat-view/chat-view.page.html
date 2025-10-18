@@ -18,18 +18,22 @@
           </div>
         </div>
       }
-
     </div>
 
     <!-- Input bar -->
     <div class="hx__input">
-      <input
-        type="text"
-        placeholder="Type a message…"
-        [(ngModel)]="draft"
-        (keyup.enter)="send()"
-      />
+      <div class="hx__input__text">
+        <input
+          type="text"
+          placeholder="Type a message…"
+          [(ngModel)]="draft"
+          (keyup.enter)="send()"
+        />
+        <ion-icon (click)="clickMicro()" class="hx__input__micro ion-icon--xxl" size="small" src="/assets/icons/micro.svg"></ion-icon>
+      </div>
+
       <button (click)="send()" [disabled]="!draft.trim()">Send</button>
     </div>
+
   </ion-content>
 </app-wrapper>

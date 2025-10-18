@@ -2,7 +2,7 @@
 
 # Set variables for easy configuration
 OUTPUT_DIR="../src/app/ml"
-OPENAPI_DIR="https://b32aff9354e5.ngrok-free.app/openapi.json"
+OPENAPI_DIR="http://10.131.0.19:8011/openapi.json"
 
 # Clean previous generation
 echo "Cleaning previous API client..."

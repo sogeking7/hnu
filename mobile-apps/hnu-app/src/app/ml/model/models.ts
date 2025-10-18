@@ -8,5 +8,6 @@ export * from './goal-config';
 export * from './http-validation-error';
 export * from './intent';
 export * from './message-schema';
+export * from './transcription-response';
 export * from './validation-error';
 export * from './validation-error-loc-inner';
